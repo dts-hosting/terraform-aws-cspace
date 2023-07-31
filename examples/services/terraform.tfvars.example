@@ -1,0 +1,5 @@
+backend_img = "collectionspace/collectionspace:latest"
+container_port = 8180
+domain = "collectionspace.org"
+log_group_name = "aws/ecs/cspace"
+zone_alias = "dev"
