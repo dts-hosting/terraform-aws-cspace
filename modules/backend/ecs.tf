@@ -1,40 +1,36 @@
 locals {
-  name = var.name
-  searchstore_volume = "${var.name}-searchstore"
+  backend_name = "${var.name}-backend"
   total_memory = var.collectionspace_memory_mb + var.elasticsearch_memory_mb
 }
 
 resource "aws_ecs_task_definition" "this" {
-  family                   = var.name
+  family                   = local.backend_name
   network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
+  requires_compatibilities = var.requires_compatibilities
   cpu                      = var.cpu
   memory                   = local.total_memory
   execution_role_arn       = aws_iam_role.this.arn
   task_role_arn            = aws_iam_role.this.arn
-  container_definitions    = templatefile("${path.module}/task-definition/app.json.tpl", {
-    aws_storage_key        = data.aws_ssm_parameter.storage_key.value
-    aws_storage_secret_key = data.aws_ssm_parameter.storage_secret.value
-    container_port         = var.container_port
-    cpu                    = var.cpu
-    create_db              = var.create_db
-    cspace_ui_build        = var.cspace_ui_build
-    elasticsearch_memory   = var.elasticsearch_memory_mb
-    img                    = var.img
-    log_group_name         = var.log_group_name
-    region                 = data.aws_region.current.name
-    s3_storage_bucket      = var.s3_storage_bucket
-    searchstore            = local.searchstore_volume
-    total_memory           = local.total_memory
+  container_definitions = templatefile("${path.module}/task-definition/app.json.tpl", {
+    container_port       = var.container_port
+    cpu                  = var.cpu
+    create_db            = var.create_db
+    cspace_ui_build      = var.cspace_ui_build
+    efs_name             = var.efs_name
+    elasticsearch_memory = var.elasticsearch_memory_mb
+    img                  = var.img
+    log_group_name       = aws_cloudwatch_log_group.this.name
+    region               = data.aws_region.current.name
+    total_memory         = local.total_memory
   })
 
   volume {
-    name = local.searchstore_volume
+    name = var.efs_name
 
     efs_volume_configuration {
-      file_system_id = var.efs_id
+      file_system_id     = var.efs_id
       transit_encryption = "ENABLED"
-      
+
       authorization_config {
         access_point_id = aws_efs_access_point.this.id
       }
@@ -43,7 +39,7 @@ resource "aws_ecs_task_definition" "this" {
 }
 
 resource "aws_ecs_service" "this" {
-  name            = var.name
+  name            = local.backend_name
   cluster         = var.cluster_id
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = var.instances
@@ -79,7 +75,7 @@ resource "aws_efs_access_point" "this" {
   file_system_id = var.efs_id
 
   root_directory {
-    path = "/${local.searchstore_volume}"
+    path = "/${var.efs_name}"
     creation_info {
       owner_gid   = 1001
       owner_uid   = 1001
@@ -89,7 +85,7 @@ resource "aws_efs_access_point" "this" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = "/aws/ecs/${local.name}"
+  name              = "/aws/ecs/${local.backend_name}"
   retention_in_days = 7
 
   tags = var.tags

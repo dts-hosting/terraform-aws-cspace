@@ -1,3 +1,6 @@
 .terraform
+.terraform.*lock*
+terraform.tf*
 terraform.tfvars
-*.zip
+!terraform.tfvars.example
+redeploy.zip

@@ -18,7 +18,7 @@ variable "collectionspace_memory_mb" {
 
 variable "container_port" {
   description = "CollectionSpace service port"
-  default = 8180
+  default     = 8180
 }
 
 variable "cpu" {
@@ -45,6 +45,10 @@ variable "custom_secrets_cfg" {
 
 variable "efs_id" {
   description = "EFS id"
+}
+
+variable "efs_name" {
+  description = "EFS name"
 }
 
 variable "elasticsearch_memory_mb" {
@@ -83,10 +87,6 @@ variable "listener_priority" {
   description = "ALB (https) listener priority"
 }
 
-variable "log_group_name" {
-  description = "ECS log group name"
-}
-
 variable "name" {
   description = "AWS ECS resources name/alias (service name, task definition name etc.)"
 }
@@ -108,23 +108,6 @@ variable "routes" {
   description = "List of CSpace routes"
 }
 
-variable "s3_storage_bucket" {
-  default = ""
-}
-
-variable "s3_storage_key_param" {
-  default = ""
-}
-
-variable "s3_storage_secret_param" {
-  default = ""
-}
-
-variable "searchstore_volume" {
-  default = ""
-  description = ""
-}
-
 variable "security_group_id" {
   description = "Security group id"
 }
@@ -144,6 +127,11 @@ variable "target_type" {
 variable "tasks" {
   description = "Tasks to run on schedule: { name = {args, schedule} }"
   default     = {}
+}
+
+variable "testing" {
+  description = "Whether this deployment is for testing (adds .test to the hostname)"
+  default     = false
 }
 
 variable "timezone" {

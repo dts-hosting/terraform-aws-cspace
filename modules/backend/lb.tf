@@ -1,3 +1,7 @@
+locals {
+  zone = var.testing ? "test.${var.zone}" : var.zone
+}
+
 resource "aws_lb_target_group" "this" {
   name                 = var.name
   port                 = var.container_port
@@ -40,7 +44,7 @@ resource "aws_lb_listener_rule" "app_https_routes" {
   action {
     type = "redirect"
     redirect {
-      path        = "${each.value.path}"
+      path        = each.value.path
       port        = "443"
       protocol    = "HTTPS"
       status_code = "HTTP_301"
@@ -49,7 +53,7 @@ resource "aws_lb_listener_rule" "app_https_routes" {
 
   condition {
     host_header {
-      values = ["${each.value.host}"]
+      values = ["${each.value.name}.${local.zone}"]
     }
   }
 
@@ -73,7 +77,7 @@ resource "aws_lb_listener_rule" "app_https_routes_supported" {
 
   condition {
     host_header {
-      values = ["${each.value.host}"]
+      values = ["${each.value.name}.${local.zone}"]
     }
   }
 
