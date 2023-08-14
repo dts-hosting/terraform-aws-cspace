@@ -29,7 +29,7 @@ provider "aws" {
 
 locals {
   name   = "cspace-ex-${basename(path.cwd)}"
-  region = "us-west-2"
+  region = var.region
 
   vpc_cidr = "10.99.0.0/18"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)

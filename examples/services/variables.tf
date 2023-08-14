@@ -2,10 +2,6 @@ variable "backend_img" {
   default = "collectionspace/collectionspace:latest"
 }
 
-variable "certificate_domain" {
-  default = "*.collectionspace.org"
-}
-
 variable "container_port" {
   default = 8180
 }
@@ -20,14 +16,6 @@ variable "cspace_ui_build" {
 
 variable "domain" {
   default = "collectionspace.org"
-}
-
-variable "profile" {
-  default = "collectionspace"
-}
-
-variable "profile_for_dns" {
-  default = "default"
 }
 
 variable "routes" {
@@ -99,13 +87,10 @@ data "aws_route53_zone" "selected" {
 ################################################################################
 # External resources
 ################################################################################
-variable "department" {}
 variable "dns_account_id" {}
-variable "environment" {}
 variable "project_account_id" {}
-variable "region" {}
+variable "region" { default = "us-west-2" }
 variable "role" {}
-variable "service" {}
 ### module
 variable "cluster_name" {}
 variable "efs_name" {}

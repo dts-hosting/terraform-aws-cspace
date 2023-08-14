@@ -39,12 +39,10 @@
     "image": "elasticsearch:5.6.16",
     "portMappings": [
       {
-        "containerPort": 9200,
-        "hostPort": 9200
+        "containerPort": 9200
       },
       {
-        "containerPort": 9300,
-        "hostPort": 9300
+        "containerPort": 9300
       }
     ],
     "environment": [
