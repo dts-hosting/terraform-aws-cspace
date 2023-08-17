@@ -2,6 +2,10 @@ variable "backend_img" {
   default = "collectionspace/collectionspace:latest"
 }
 
+variable "bastion_name" {
+  default = "bastion"
+}
+
 variable "container_port" {
   default = 8180
 }
@@ -69,6 +73,18 @@ variable "routes" {
   ]
 }
 
+variable "slack_webhook_url" {
+  description = "Slack webhook URL"
+}
+
+variable "slack_channel" {
+  description = "Slack channel"
+}
+
+variable "slack_username" {
+  description = "Slack username"
+}
+
 variable "testing" {
   default = true
 }
@@ -88,11 +104,16 @@ data "aws_route53_zone" "selected" {
 # External resources
 ################################################################################
 variable "dns_account_id" {}
+variable "dns_zone_name" {}
+variable "department" {}
+variable "environment" {}
 variable "project_account_id" {}
 variable "region" { default = "us-west-2" }
 variable "role" {}
+variable "service" {}
 ### module
 variable "cluster_name" {}
+variable "db_name" {}
 variable "efs_name" {}
 variable "lb_name" {}
 variable "security_group_name" {}
@@ -116,6 +137,17 @@ data "aws_lb" "selected" {
 data "aws_lb_listener" "selected" {
   load_balancer_arn = data.aws_lb.selected.arn
   port              = 443
+}
+
+data "aws_db_instance" "selected" {
+  db_instance_identifier = var.db_name
+}
+
+data "aws_instance" "bastion" {
+  filter {
+    name   = "tag:Name"
+    values = [var.bastion_name]
+  }
 }
 
 data "aws_security_group" "selected" {

@@ -20,8 +20,10 @@ Module configuration
 module "backend" {
   source = "github.com/dts-hosting/terraform-aws-cspace/modules/backend"
 
+  bastion_arn             = var.bastion_arn
   cluster_id              = var.cluster_id
   container_port          = var.container_port
+  db_id                   = var.db_id
   efs_name                = var.efs_name
   host                    = "example.collectionspace.org"
   img                     = var.backend_img
@@ -29,6 +31,9 @@ module "backend" {
   listener_priority       = 1
   name                    = "cspace-demo"
   routes                  = var.routes
+  slack_channel           = var.slack_channel
+  slack_username          = var.slack_username
+  slack_webhook_url       = var.slack_webhook_url
   security_group_id       = data.aws_security_group.selected.id
   subnets                 = var.subnets
   tags                    = {}
