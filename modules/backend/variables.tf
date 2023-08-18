@@ -4,10 +4,6 @@ variable "assign_public_ip" {
   default = false
 }
 
-variable "bastion_arn" {
-  description = "Bastion instance ARN"
-}
-
 variable "capacity_provider" {
   default = "FARGATE"
 }
@@ -45,15 +41,6 @@ variable "custom_env_cfg" {
 variable "custom_secrets_cfg" {
   default     = {}
   description = "General secrets name/value configuration"
-}
-
-variable "database_low_ram_threshold" {
-  default     = 1073741824 # 1GB
-  description = "RDS freeable memory threshold"
-}
-
-variable "db_id" {
-  description = "Database instance ID"
 }
 
 variable "efs_id" {
@@ -100,6 +87,16 @@ variable "listener_priority" {
   description = "ALB (https) listener priority"
 }
 
+variable "log_filter_patterns" {
+  description = "Map of log filter name => pattern, description objects"
+  default = {
+    "nuxeo-session" = {
+      pattern     = "Could not open a session to the Nuxeo repository"
+      description = "CSpace nuxeo session (db connection) alarm"
+    }
+  }
+}
+
 variable "name" {
   description = "AWS ECS resources name/alias (service name, task definition name etc.)"
 }
@@ -125,16 +122,8 @@ variable "security_group_id" {
   description = "Security group id"
 }
 
-variable "slack_webhook_url" {
-  description = "Slack webhook URL"
-}
-
-variable "slack_channel" {
-  description = "Slack channel"
-}
-
-variable "slack_username" {
-  description = "Slack username"
+variable "sns_topic_arn" {
+  description = "SNS topic ARN"
 }
 
 variable "subnets" {

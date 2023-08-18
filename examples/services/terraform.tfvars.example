@@ -1,15 +1,11 @@
 backend_img             = "collectionspace/collectionspace:latest"
-bastion_name            = "cspace-bastion"
 cluster_name            = "cspace-cluster"
 container_port          = 8180
-db_name                 = "collectionspace-db"
 domain                  = "collectionspace.org"
 efs_name                = "cspace-efs"
 lb_name                 = "cspace-lb"
 security_group_name     = "cspace-security-group"
-slack_channel           = "notifications"
-slack_username          = "cspace-health"
-slack_webhook_url       = "https://hooks.slack.com/services/ID1/ID2/ID3"
+sns_topic_name          = "sns-alert-topic"
 subnet_type             = "Private"
 testing                 = false
 vpc_name                = "cspace-vpc"
