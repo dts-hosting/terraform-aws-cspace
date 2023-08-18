@@ -91,8 +91,14 @@ variable "log_filter_patterns" {
   description = "Map of log filter name => pattern, description objects"
   default = {
     "nuxeo-session" = {
-      pattern     = "Could not open a session to the Nuxeo repository"
-      description = "CSpace nuxeo session (db connection) alarm"
+      comparison_operator = "GreaterThanOrEqualToThreshold"
+      datapoints_to_alarm = 1
+      description         = "CSpace nuxeo session (db connection) alarm"
+      evaluation_periods  = 1
+      pattern             = "Could not open a session to the Nuxeo repository"
+      period              = 300
+      statistic           = "Sum"
+      threshold           = "1000"
     }
   }
 }

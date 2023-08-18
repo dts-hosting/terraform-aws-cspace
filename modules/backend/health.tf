@@ -23,12 +23,12 @@ resource "aws_cloudwatch_metric_alarm" "this" {
   alarm_name          = "${local.name}-${each.key}"
   namespace           = each.value.metric_transformation[0].namespace
   metric_name         = each.value.metric_transformation[0].name
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  datapoints_to_alarm = 1
-  evaluation_periods  = 1
-  period              = 300
-  statistic           = "Sum"
-  threshold           = "1000"
+  comparison_operator = var.log_filter_patterns[each.key].comparison_operator
+  datapoints_to_alarm = var.log_filter_patterns[each.key].datapoints_to_alarm
+  evaluation_periods  = var.log_filter_patterns[each.key].evaluation_periods
+  period              = var.log_filter_patterns[each.key].period
+  statistic           = var.log_filter_patterns[each.key].statistic
+  threshold           = var.log_filter_patterns[each.key].threshold
   alarm_description   = "${var.log_filter_patterns[each.key].description} for: ${local.name}"
 
   alarm_actions = [var.sns_topic_arn]
