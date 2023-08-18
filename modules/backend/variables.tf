@@ -99,6 +99,16 @@ variable "log_filter_patterns" {
       period              = 300
       statistic           = "Sum"
       threshold           = "1000"
+    },
+    "out-of-memory" = {
+      comparison_operator = "GreaterThanOrEqualToThreshold"
+      datapoints_to_alarm = 1
+      description         = "CSpace out of memory alarm"
+      evaluation_periods  = 1
+      pattern             = "Ran out of memory"
+      period              = 300
+      statistic           = "Sum"
+      threshold           = "1"
     }
   }
 }
