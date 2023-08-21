@@ -5,13 +5,16 @@
     "networkMode": "awsvpc",
     "essential": true,
     "cpu": ${cpu},
-    "memoryReservation": ${total_memory},
     "portMappings": [
       {
         "containerPort": ${container_port}
       }
     ],
     "environment": [
+      {
+        "name": "CATALINA_OPTS",
+        "value": "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Duser.timezone=${timezone} -Xmx${cspace_memory}m -Xms${cspace_memory}m -XX:MaxPermSize=384m"
+      },
       {
         "name": "CREATE_DB",
         "value": "${create_db}"
@@ -53,7 +56,7 @@
     ],
     "mountPoints": [
       {
-        "sourceVolume": "${efs_name}",
+        "sourceVolume": "${es_efs_name}",
         "containerPath": "/usr/share/elasticsearch/data",
         "readOnly": false
       }

@@ -33,22 +33,8 @@ variable "cspace_ui_build" {
   default = false
 }
 
-variable "custom_env_cfg" {
-  default     = {}
-  description = "General environment name/value configuration"
-}
-
-variable "custom_secrets_cfg" {
-  default     = {}
-  description = "General secrets name/value configuration"
-}
-
 variable "efs_id" {
   description = "EFS id"
-}
-
-variable "efs_name" {
-  description = "EFS name"
 }
 
 variable "elasticsearch_memory_mb" {
@@ -81,10 +67,6 @@ variable "instances" {
 
 variable "listener_arn" {
   description = "ALB (https) listener arn"
-}
-
-variable "listener_priority" {
-  description = "ALB (https) listener priority"
 }
 
 variable "log_filter_patterns" {
@@ -154,9 +136,9 @@ variable "target_type" {
   default = "ip"
 }
 
-variable "tasks" {
-  description = "Tasks to run on schedule: { name = {args, schedule} }"
-  default     = {}
+variable "task_memory_mb" {
+  description = "Memory allocation for task (hard limit)"
+  default     = 3072
 }
 
 variable "testing" {

@@ -22,11 +22,10 @@ module "backend" {
 
   cluster_id              = var.cluster_id
   container_port          = var.container_port
-  efs_name                = var.efs_name
+  efs_id                  = var.efs_id
   host                    = "example.collectionspace.org"
   img                     = var.backend_img
   listener_arn            = var.listener_arn
-  listener_priority       = 1
   name                    = "cspace-demo"
   routes                  = var.routes
   security_group_id       = data.aws_security_group.selected.id
@@ -46,10 +45,10 @@ Given this example, the CollectionSpace core profile (if enabled) would be avail
 
 - `https://core.test.collectionspace.org`
 
-`host`: An additional hostname that the load balancer will forward to the application.  
-`testing`: When `true`, will prefix the zone with `test.`, e.g., `core.collectionspace.org` becomes `core.test.collectionspace.org` when `testing = true`.  
-`zone`: The base TLD under which this instance will be deployed.  
-`zone_alias`: An optional subdomain that the load balancer will forward to the application.  
+`host`: An additional hostname that the load balancer will forward to the application.
+`testing`: When `true`, will prefix the zone with `test.`, e.g., `core.collectionspace.org` becomes `core.test.collectionspace.org` when `testing = true`.
+`zone`: The base TLD under which this instance will be deployed.
+`zone_alias`: An optional subdomain that the load balancer will forward to the application.
 
 For all configuration options review the [variables file](modules/backend/variables.tf).
 

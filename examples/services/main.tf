@@ -53,11 +53,9 @@ module "backend" {
   cluster_id        = data.aws_ecs_cluster.selected.id
   container_port    = var.container_port
   efs_id            = data.aws_efs_file_system.selected.id
-  efs_name          = var.efs_name
   host              = "${var.zone_alias}.${var.domain}"
   img               = var.backend_img
   listener_arn      = data.aws_lb_listener.selected.arn
-  listener_priority = 1
   name              = local.name
   routes            = var.routes
   security_group_id = data.aws_security_group.selected.id
