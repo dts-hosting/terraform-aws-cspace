@@ -2,10 +2,6 @@ variable "backend_img" {
   default = "collectionspace/collectionspace:latest"
 }
 
-variable "bastion_name" {
-  default = "bastion"
-}
-
 variable "container_port" {
   default = 8180
 }
@@ -73,18 +69,6 @@ variable "routes" {
   ]
 }
 
-variable "slack_webhook_url" {
-  description = "Slack webhook URL"
-}
-
-variable "slack_channel" {
-  description = "Slack channel"
-}
-
-variable "slack_username" {
-  description = "Slack username"
-}
-
 variable "testing" {
   default = true
 }
@@ -113,10 +97,10 @@ variable "role" {}
 variable "service" {}
 ### module
 variable "cluster_name" {}
-variable "db_name" {}
 variable "efs_name" {}
 variable "lb_name" {}
 variable "security_group_name" {}
+variable "sns_topic_name" {}
 variable "subnet_type" {}
 variable "vpc_name" {}
 
@@ -139,22 +123,15 @@ data "aws_lb_listener" "selected" {
   port              = 443
 }
 
-data "aws_db_instance" "selected" {
-  db_instance_identifier = var.db_name
-}
-
-data "aws_instance" "bastion" {
-  filter {
-    name   = "tag:Name"
-    values = [var.bastion_name]
-  }
-}
-
 data "aws_security_group" "selected" {
   filter {
     name   = "tag:Name"
     values = [var.security_group_name]
   }
+}
+
+data "aws_sns_topic" "selected" {
+  name = var.sns_topic_name
 }
 
 data "aws_subnets" "selected" {

@@ -50,10 +50,8 @@ locals {
 module "backend" {
   source = "../../modules/backend"
 
-  bastion_arn       = data.aws_instance.bastion.arn
   cluster_id        = data.aws_ecs_cluster.selected.id
   container_port    = var.container_port
-  db_id             = data.aws_db_instance.selected.id
   efs_id            = data.aws_efs_file_system.selected.id
   efs_name          = var.efs_name
   host              = "${var.zone_alias}.${var.domain}"
@@ -63,9 +61,7 @@ module "backend" {
   name              = local.name
   routes            = var.routes
   security_group_id = data.aws_security_group.selected.id
-  slack_channel     = var.slack_channel
-  slack_username    = var.slack_username
-  slack_webhook_url = var.slack_webhook_url
+  sns_topic_arn     = data.aws_sns_topic.selected.arn
   subnets           = data.aws_subnets.selected.ids
   tags              = local.tags
   testing           = var.testing
