@@ -22,11 +22,10 @@ module "backend" {
 
   cluster_id              = var.cluster_id
   container_port          = var.container_port
-  efs_name                = var.efs_name
+  efs_id                  = var.efs_id
   host                    = "example.collectionspace.org"
   img                     = var.backend_img
   listener_arn            = var.listener_arn
-  listener_priority       = 1
   name                    = "cspace-demo"
   routes                  = var.routes
   security_group_id       = data.aws_security_group.selected.id

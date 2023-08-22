@@ -1,6 +1,6 @@
 locals {
   backend_name = "${var.name}-backend"
-  total_memory = var.collectionspace_memory_mb + var.elasticsearch_memory_mb
+  es_efs_name  = "${var.name}-es-data"
 }
 
 resource "aws_ecs_task_definition" "this" {
@@ -8,31 +8,32 @@ resource "aws_ecs_task_definition" "this" {
   network_mode             = "awsvpc"
   requires_compatibilities = var.requires_compatibilities
   cpu                      = var.cpu
-  memory                   = local.total_memory
+  memory                   = var.task_memory_mb
   execution_role_arn       = aws_iam_role.this.arn
   task_role_arn            = aws_iam_role.this.arn
   container_definitions = templatefile("${path.module}/task-definition/app.json.tpl", {
     container_port       = var.container_port
     cpu                  = var.cpu
     create_db            = var.create_db
+    cspace_memory        = var.collectionspace_memory_mb
     cspace_ui_build      = var.cspace_ui_build
-    efs_name             = var.efs_name
+    es_efs_name          = local.es_efs_name
     elasticsearch_memory = var.elasticsearch_memory_mb
     img                  = var.img
     log_group_name       = aws_cloudwatch_log_group.this.name
     region               = data.aws_region.current.name
-    total_memory         = local.total_memory
+    timezone             = var.timezone
   })
 
   volume {
-    name = var.efs_name
+    name = local.es_efs_name
 
     efs_volume_configuration {
       file_system_id     = var.efs_id
       transit_encryption = "ENABLED"
 
       authorization_config {
-        access_point_id = aws_efs_access_point.this.id
+        access_point_id = aws_efs_access_point.es.id
       }
     }
   }
@@ -61,7 +62,7 @@ resource "aws_ecs_service" "this" {
   }
 
   network_configuration {
-    assign_public_ip = true
+    assign_public_ip = var.assign_public_ip
     security_groups  = [var.security_group_id]
     subnets          = var.subnets
   }
@@ -71,11 +72,11 @@ resource "aws_ecs_service" "this" {
   }
 }
 
-resource "aws_efs_access_point" "this" {
+resource "aws_efs_access_point" "es" {
   file_system_id = var.efs_id
 
   root_directory {
-    path = "/${var.efs_name}"
+    path = "/${local.es_efs_name}"
     creation_info {
       owner_gid   = 1001
       owner_uid   = 1001
