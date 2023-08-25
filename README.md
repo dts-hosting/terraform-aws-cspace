@@ -2,6 +2,8 @@
 
 Terraform module to deploy [CSpace](https://cspace.lyrasis.org/) as [AWS ECS](https://aws.amazon.com/ecs/) services.
 
+This module creates a trigger on `PutImage` that causes the associated ECS service to restart when CodeBuild has completed.
+
 - [General infrastructure requirements](REQS.md)
 
 ## Examples
