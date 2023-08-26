@@ -4,7 +4,6 @@
     "image": "${img}",
     "networkMode": "awsvpc",
     "essential": true,
-    "cpu": ${cpu},
     "portMappings": [
       {
         "containerPort": ${container_port}
@@ -24,6 +23,10 @@
         "value": "${cspace_ui_build}"
       },
       {
+        "name": "ES_HOST",
+        "value": "http://localhost:9200"
+      },
+      {
         "name": "S3_BINARY_MANAGER_ENABLED",
         "value": "true"
       }
@@ -40,6 +43,7 @@
   {
     "name": "elasticsearch",
     "image": "elasticsearch:5.6.16",
+    "networkMode": "awsvpc",
     "portMappings": [
       {
         "containerPort": 9200
