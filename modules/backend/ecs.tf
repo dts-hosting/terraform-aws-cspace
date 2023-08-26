@@ -13,7 +13,6 @@ resource "aws_ecs_task_definition" "this" {
   task_role_arn            = aws_iam_role.this.arn
   container_definitions = templatefile("${path.module}/task-definition/app.json.tpl", {
     container_port       = var.container_port
-    cpu                  = var.cpu
     create_db            = var.create_db
     cspace_memory        = var.collectionspace_memory_mb
     cspace_ui_build      = var.cspace_ui_build
