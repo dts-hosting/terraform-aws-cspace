@@ -66,9 +66,7 @@ resource "aws_ecs_service" "this" {
     subnets          = var.subnets
   }
 
-  lifecycle {
-    ignore_changes = [desired_count]
-  }
+  tags = var.tags
 }
 
 resource "aws_efs_access_point" "es" {
