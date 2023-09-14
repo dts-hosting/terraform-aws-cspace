@@ -5,7 +5,7 @@ locals {
   cluster_id                = var.cluster_id
   collectionspace_memory_mb = var.collectionspace_memory_mb
   container_port            = var.container_port
-  cpu                       = var.cpu
+  cpu                       = local.capacity_provider == "EC2" ? null : var.cpu
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
