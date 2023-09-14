@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "this" {
   filename         = data.archive_file.redeploy.output_path
-  function_name    = "${var.name}-redeployer"
+  function_name    = "${local.name}-redeployer"
   role             = aws_iam_role.this.arn
   handler          = "index.handler"
   runtime          = "nodejs16.x"
@@ -10,14 +10,14 @@ resource "aws_lambda_function" "this" {
 
   environment {
     variables = {
-      CLUSTER = "${split("/", var.cluster_id)[1]}"
-      SERVICE = var.name
+      CLUSTER = local.env_cluster_name
+      SERVICE = local.name
     }
   }
 }
 
 resource "aws_cloudwatch_event_rule" "this" {
-  name          = "${var.name}-redeployer"
+  name          = "${local.name}-redeployer"
   event_pattern = <<PATTERN
 {
   "detail": {
@@ -29,10 +29,10 @@ resource "aws_cloudwatch_event_rule" "this" {
     ],
     "requestParameters": {
       "imageTag": [
-        "${split(":", var.img)[1]}"
+        "${local.img_tag}"
       ],
       "repositoryName": [
-        "${regex("/(.*):", var.img)[0]}"
+        "${local.img_repository}"
       ]
     }
   },
