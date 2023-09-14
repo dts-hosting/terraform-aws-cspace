@@ -11,7 +11,7 @@ resource "aws_lambda_function" "this" {
   environment {
     variables = {
       CLUSTER = local.env_cluster_name
-      SERVICE = local.name
+      SERVICE = local.backend_name
     }
   }
 }

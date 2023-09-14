@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "this" {
-  name                 = local.name
+  name_prefix          = "cs-"
   port                 = local.container_port
   protocol             = "HTTP"
   vpc_id               = local.vpc_id
@@ -13,6 +13,10 @@ resource "aws_lb_target_group" "this" {
     healthy_threshold   = 2
     unhealthy_threshold = local.health_check_attempts
     matcher             = "200-299,301"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
