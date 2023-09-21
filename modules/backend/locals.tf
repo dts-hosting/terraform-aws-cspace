@@ -23,7 +23,6 @@ locals {
   img_repository            = regex("/(.*):", var.img)[0]
   instance_count            = var.instances
   listener_arn              = var.listener_arn
-  log_filter_patterns       = var.log_filter_patterns
   name                      = var.name
   requires_compatibilities  = var.requires_compatibilities
   routes                    = var.routes

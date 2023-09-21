@@ -69,32 +69,6 @@ variable "listener_arn" {
   description = "ALB (https) listener arn"
 }
 
-variable "log_filter_patterns" {
-  description = "Map of log filter name => pattern, description objects"
-  default = {
-    "nuxeo-session" = {
-      comparison_operator = "GreaterThanOrEqualToThreshold"
-      datapoints_to_alarm = 1
-      description         = "CSpace nuxeo session (db connection) alarm"
-      evaluation_periods  = 1
-      pattern             = "Could not open a session to the Nuxeo repository"
-      period              = 300
-      statistic           = "Sum"
-      threshold           = "1000"
-    },
-    "out-of-memory" = {
-      comparison_operator = "GreaterThanOrEqualToThreshold"
-      datapoints_to_alarm = 1
-      description         = "CSpace out of memory alarm"
-      evaluation_periods  = 1
-      pattern             = "Ran out of memory"
-      period              = 300
-      statistic           = "Sum"
-      threshold           = "1"
-    }
-  }
-}
-
 variable "name" {
   description = "AWS ECS resources name/alias (service name, task definition name etc.)"
 }
