@@ -19,6 +19,10 @@
         "value": "${create_db}"
       },
       {
+        "name": "CSPACE_INSTANCE_ID",
+        "value: "${instance_id}"
+      },
+      {
         "name": "CSPACE_UI_BUILD",
         "value": "${cspace_ui_build}"
       },

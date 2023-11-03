@@ -21,6 +21,7 @@ locals {
   img                       = var.img
   img_tag                   = split(":", var.img)[1]
   img_repository            = regex("/(.*):", var.img)[0]
+  instance_id               = replace(var.instance_id, "-", "_") # Ensure - isn't in a database name
   instance_count            = var.instances
   listener_arn              = var.listener_arn
   name                      = var.name

@@ -55,6 +55,7 @@ module "backend" {
   efs_id            = data.aws_efs_file_system.selected.id
   host              = "${var.zone_alias}.${var.domain}"
   img               = var.backend_img
+  instance_id       = local.name
   listener_arn      = data.aws_lb_listener.selected.arn
   name              = local.name
   routes            = var.routes

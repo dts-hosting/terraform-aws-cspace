@@ -61,6 +61,10 @@ variable "img" {
   description = "CSpace backend docker img"
 }
 
+variable "instance_id" {
+  description = "Optional instance ID for image reuse"
+}
+
 variable "instances" {
   default = 1
 }

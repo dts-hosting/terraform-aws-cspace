@@ -15,6 +15,7 @@ resource "aws_ecs_task_definition" "this" {
     es_efs_name          = local.es_efs_name
     elasticsearch_memory = local.elasticsearch_memory_mb
     img                  = local.img
+    instance_id          = local.instance_id
     log_group_name       = aws_cloudwatch_log_group.this.name
     region               = data.aws_region.current.name
     timezone             = local.timezone
