@@ -20,7 +20,7 @@
       },
       {
         "name": "CSPACE_INSTANCE_ID",
-        "value: "${instance_id}"
+        "value": "_${instance_id}"
       },
       {
         "name": "CSPACE_UI_BUILD",
