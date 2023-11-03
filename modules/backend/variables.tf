@@ -62,6 +62,7 @@ variable "img" {
 }
 
 variable "instance_id" {
+  default     = ""
   description = "Optional instance ID for image reuse"
 }
 
