@@ -30,10 +30,14 @@ locals {
   sns_topic_arn             = var.sns_topic_arn
   subnets                   = var.subnets
   tags                      = var.tags
-  task_memory_mb            = var.task_memory_mb
-  template_path             = "${path.module}/task-definition/app.json.tpl"
-  timezone                  = var.timezone
-  vpc_id                    = var.vpc_id
-  zone                      = var.zone
-  zone_alias                = var.zone_alias
+  task_memory_buffer_mb     = var.task_memory_buffer_mb
+  task_memory_mb = max(
+    var.task_memory_mb,
+    local.collectionspace_memory_mb + local.elasticsearch_memory_mb + local.task_memory_buffer_mb
+  )
+  template_path = "${path.module}/task-definition/app.json.tpl"
+  timezone      = var.timezone
+  vpc_id        = var.vpc_id
+  zone          = var.zone
+  zone_alias    = var.zone_alias
 }

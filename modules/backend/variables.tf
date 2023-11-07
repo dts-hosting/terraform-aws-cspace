@@ -110,6 +110,11 @@ variable "target_type" {
   default = "ip"
 }
 
+variable "task_memory_buffer_mb" {
+  description = "Available task memory in excess of CSpace + ES"
+  default     = 512
+}
+
 variable "task_memory_mb" {
   description = "Memory allocation for task (hard limit)"
   default     = 3072
