@@ -62,6 +62,14 @@ resource "aws_ecs_service" "this" {
     subnets          = local.subnets
   }
 
+  dynamic "ordered_placement_strategy" {
+    for_each = local.placement_strategies
+    content {
+      field = ordered_placement_strategy.value.field
+      type  = ordered_placement_strategy.value.type
+    }
+  }
+
   tags = local.tags
 }
 
