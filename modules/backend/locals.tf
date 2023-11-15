@@ -24,6 +24,7 @@ locals {
   instance_count            = var.instances
   listener_arn              = var.listener_arn
   name                      = var.name
+  placement_strategies      = var.placement_strategies
   requires_compatibilities  = var.requires_compatibilities
   routes                    = var.routes
   security_group_id         = var.security_group_id
