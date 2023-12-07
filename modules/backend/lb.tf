@@ -87,7 +87,8 @@ resource "aws_lb_listener_rule" "app_https_routes_supported" {
         "/cspace/${split(".", each.key)[0]}/*",
         "/cspace-services/*",
         "/cspace-ui/*",
-        "/gateway*"
+        "/gateway*",
+        "/static/*"
       ]
     }
   }
