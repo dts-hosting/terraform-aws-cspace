@@ -147,5 +147,6 @@ variable "zone" {
 }
 
 variable "zone_alias" {
-  description = "Zone alias"
+  default     = ""
+  description = "Zone alias (a.k.a. subdomain, e.g., 'dev' for dev.collectionspace.org)"
 }
