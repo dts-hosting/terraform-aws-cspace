@@ -30,7 +30,7 @@ resource "aws_lb_listener_rule" "app" {
 
   condition {
     host_header {
-      values = distinct(["${local.zone_alias}.${local.hostzone}", "${local.host}"])
+      values = local.host_headers
     }
   }
 }

@@ -17,6 +17,8 @@ locals {
   health_check_interval     = var.health_check_interval
   health_check_path         = var.health_check_path
   host                      = var.host
+  host_with_alias           = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.host}" : local.host
+  host_headers              = distinct([local.host_with_alias, local.host])
   hostzone                  = var.testing ? "test.${var.zone}" : var.zone
   img                       = var.img
   img_tag                   = split(":", var.img)[1]
