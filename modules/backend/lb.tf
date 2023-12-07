@@ -85,8 +85,7 @@ resource "aws_lb_listener_rule" "app_https_routes_supported" {
     path_pattern {
       values = [
         "/cspace/${split(".", each.key)[0]}/*",
-        "/cspace-services/*",
-        "/cspace-ui/*",
+        "/cspace-*/*",
         "/gateway*",
         "/static/*"
       ]
