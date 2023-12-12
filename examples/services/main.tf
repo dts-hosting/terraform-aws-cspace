@@ -40,7 +40,7 @@ locals {
     Repository = "https://github.com/dts-hosting/terraform-aws-cspace"
   }
 
-  zone = var.testing ? "test.${var.domain}" : var.domain
+  zone = var.domain
 }
 
 ################################################################################
@@ -62,7 +62,6 @@ module "backend" {
   sns_topic_arn     = data.aws_sns_topic.selected.arn
   subnets           = data.aws_subnets.selected.ids
   tags              = local.tags
-  testing           = var.testing
   timezone          = "America/New_York"
   vpc_id            = data.aws_vpc.selected.id
   zone              = var.domain
