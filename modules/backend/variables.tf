@@ -53,10 +53,6 @@ variable "health_check_path" {
   default = "/cspace-services/systeminfo"
 }
 
-variable "host" {
-  description = "CSpace backend host"
-}
-
 variable "img" {
   description = "CSpace backend docker img"
 }
