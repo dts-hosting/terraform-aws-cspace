@@ -1,6 +1,6 @@
 locals {
   assign_public_ip          = var.assign_public_ip
-  backend_name              = "${var.name}-backend"
+  backend_name              = local.resource_prefix
   capacity_provider         = var.capacity_provider
   cluster_id                = var.cluster_id
   collectionspace_memory_mb = var.collectionspace_memory_mb
@@ -12,15 +12,13 @@ locals {
   efs_id                    = var.efs_id
   elasticsearch_memory_mb   = var.elasticsearch_memory_mb
   env_cluster_name          = split("/", var.cluster_id)[1]
-  es_efs_name               = "${var.name}-es-data"
+  es_efs_name               = "${local.resource_prefix}-es-data"
+  full_hostname             = "${local.name}.${local.host_with_alias}"
   health_check_attempts     = var.health_check_attempts
   health_check_interval     = var.health_check_interval
   health_check_path         = var.health_check_path
-  host                      = var.host
-  host_headers              = distinct([local.host_with_alias, local.host_with_site])
-  host_with_alias           = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.host}" : local.host_with_site
-  host_with_site            = "${local.name}.${local.host}"
-  hostzone                  = var.testing ? "test.${var.zone}" : var.zone
+  host_headers              = [local.full_hostname]
+  host_with_alias           = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.zone}" : local.zone
   img                       = var.img
   img_tag                   = split(":", var.img)[1]
   img_repository            = regex("/(.*):", var.img)[0]
@@ -29,6 +27,7 @@ locals {
   name                      = var.name
   placement_strategies      = var.placement_strategies
   requires_compatibilities  = var.requires_compatibilities
+  resource_prefix           = local.name == local.zone_alias ? local.name : "${local.name}${local.zone_alias}"
   routes                    = var.routes
   security_group_id         = var.security_group_id
   sns_topic_arn             = var.sns_topic_arn

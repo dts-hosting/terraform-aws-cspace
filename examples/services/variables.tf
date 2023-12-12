@@ -69,10 +69,6 @@ variable "routes" {
   ]
 }
 
-variable "testing" {
-  default = true
-}
-
 variable "zone_alias" {
   default = "test"
 }

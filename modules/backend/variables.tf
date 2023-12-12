@@ -129,11 +129,6 @@ variable "task_memory_mb" {
   default     = 3072
 }
 
-variable "testing" {
-  description = "Whether this deployment is for testing (adds .test to the hostname)"
-  default     = false
-}
-
 variable "timezone" {
   description = "Timezone"
 }

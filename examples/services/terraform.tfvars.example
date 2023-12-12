@@ -7,6 +7,5 @@ lb_name                 = "cspace-lb"
 security_group_name     = "cspace-security-group"
 sns_topic_name          = "sns-alert-topic"
 subnet_type             = "Private"
-testing                 = false
 vpc_name                = "cspace-vpc"
 zone_alias              = "test"

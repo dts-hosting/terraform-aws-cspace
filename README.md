@@ -25,7 +25,6 @@ module "backend" {
   cluster_id              = var.cluster_id
   container_port          = var.container_port
   efs_id                  = var.efs_id
-  host                    = "example.collectionspace.org"
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
@@ -34,7 +33,6 @@ module "backend" {
   sns_topic_arn           = var.sns_topic_arn
   subnets                 = var.subnets
   tags                    = {}
-  testing                 = var.testing
   timezone                = "America/New_York"
   vpc_id                  = var.vpc_id
   zone                    = "collectionspace.org"
@@ -43,14 +41,13 @@ module "backend" {
 
 ```
 
-Given this example, the CollectionSpace core profile (if enabled) would be available at:
+Given this example, the CollectionSpace core profile would be available at:
 
-- `https://core.test.collectionspace.org`
+- `https://core.dev.collectionspace.org`
 
-`host`: An additional hostname that the load balancer will forward to the application.  
-`testing`: When `true`, will prefix the zone with `test.`, e.g., `core.collectionspace.org` becomes `core.test.collectionspace.org` when `testing = true`.  
 `zone`: The base TLD under which this instance will be deployed.  
-`zone_alias`: An optional subdomain that the load balancer will forward to the application.  
+`zone_alias`: An optional subdomain prefix that the load balancer will forward to the application.
+Used for multi-tenant cases, e.g., `dev` or `qa` so that sites are, e.g., `core.dev` or `anthro.dev`.
 
 For all configuration options review the [variables file](modules/backend/variables.tf).
 
