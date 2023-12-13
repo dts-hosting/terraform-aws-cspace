@@ -87,12 +87,13 @@ variable "port" {
   default     = 8080
 }
 
-variable "requires_compatibilities" {
-  default = ["FARGATE"]
+variable "profiles" {
+  description = "List of profiles to support"
+  default     = []
 }
 
-variable "routes" {
-  description = "List of CSpace routes"
+variable "requires_compatibilities" {
+  default = ["FARGATE"]
 }
 
 variable "security_group_id" {

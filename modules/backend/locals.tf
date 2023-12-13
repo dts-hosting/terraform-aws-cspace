@@ -26,14 +26,26 @@ locals {
   listener_arn              = var.listener_arn
   name                      = var.name
   placement_strategies      = var.placement_strategies
+  profiles                  = var.profiles
   requires_compatibilities  = var.requires_compatibilities
   resource_prefix           = local.name == local.zone_alias ? local.name : "${local.name}${local.zone_alias}"
-  routes                    = var.routes
-  security_group_id         = var.security_group_id
-  sns_topic_arn             = var.sns_topic_arn
-  subnets                   = var.subnets
-  tags                      = var.tags
-  task_memory_buffer_mb     = var.task_memory_buffer_mb
+  route_prefix              = local.name == local.zone_alias ? local.name : "${local.name}.${local.zone_alias}"
+  routes = length(local.profiles) == 1 ? [{
+    name = local.route_prefix
+    host = local.full_hostname
+    path = "/cspace/${local.name}/login"
+    }] : [
+    for profile in local.profiles : {
+      name = "${profile}.${local.zone_alias}"
+      host = "${profile}.${host_with_alias}"
+      path = "/cspace/${profile}/login"
+    }
+  ]
+  security_group_id     = var.security_group_id
+  sns_topic_arn         = var.sns_topic_arn
+  subnets               = var.subnets
+  tags                  = var.tags
+  task_memory_buffer_mb = var.task_memory_buffer_mb
   task_memory_mb = max(
     var.task_memory_mb,
     local.collectionspace_memory_mb + local.elasticsearch_memory_mb + local.task_memory_buffer_mb

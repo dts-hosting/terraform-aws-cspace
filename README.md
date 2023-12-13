@@ -28,6 +28,8 @@ module "backend" {
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
+  profiles                = ["anthro", "bonsai", "core", "fcart",
+                            "herbarium", "lhmc", "materials", "publicart"]
   routes                  = var.routes
   security_group_id       = data.aws_security_group.selected.id
   sns_topic_arn           = var.sns_topic_arn
@@ -50,6 +52,64 @@ Given this example, the CollectionSpace core profile would be available at:
 Used for multi-tenant cases, e.g., `dev` or `qa` so that sites are, e.g., `core.dev` or `anthro.dev`.
 
 For all configuration options review the [variables file](modules/backend/variables.tf).
+
+### Understanding `profiles`
+
+This module generates load balancer routes and DNS names off of `profiles`.
+There are two distinct code paths depending on how the `profiles` variable is
+set, so it's important to know the difference.
+
+#### Single-tenant (`name != zone_alias`)
+
+In this case, the list of `profiles` has a single value, e.g., `["anthro"]`.
+This will be the case for most clients. When there is only one value in
+`profiles`, the `name` and `zone_alias` are used for routing and DNS.
+
+Example:
+
+```hcl
+module "backend" {
+  ...
+  name       = "westerville"
+  profiles   = ["lhmc"]
+  zone_alias = "staging"
+}
+```
+
+This generates a route using the DNS name
+`westerville.staging.collectionspace.org` with a path of
+`/cspace/westerville/login`.
+
+#### Multi-tenant (`name == zone_alias`)
+
+In this case, there are multiple `profiles` in the list. This is typically only
+the case for CollectionSpace Program Team instances (e.g., dev, qa, demo) where
+multiple profiles are deployed for testing or demonstration purposes. When
+there are multiple `profiles` specified, the `profiles` and `zone_alias` are
+used for routing and DNS.
+
+Example:
+
+```hcl
+module "backend" {
+  ...
+  name       = "dev"
+  profiles   = ["anthro", "bonsai", "core", "fcart",
+                "herbarium", "lhmc", "materials", "publicart"]
+  zone_alias = "dev"
+}
+```
+
+This generates multiple routes using the following DNS names:
+
+* `anthro.dev.collectionspace.org` => `/cspace/anthro/login`
+* `bonsai.dev.collectionspace.org` => `/cspace/bonsai/login`
+* `core.dev.collectionspace.org` => `/cspace/core/login`
+* `fcart.dev.collectionspace.org` => `/cspace/fcart/login`
+* `herbarium.dev.collectionspace.org` => `/cspace/herbarium/login`
+* `lhmc.dev.collectionspace.org` => `/cspace/lhmc/login`
+* `materials.dev.collectionspace.org` => `/cspace/materials/login`
+* `publicart.dev.collectionspace.org` => `/cspace/publicart/login`
 
 ## Launch type configuration
 
