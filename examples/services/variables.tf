@@ -18,57 +18,6 @@ variable "domain" {
   default = "collectionspace.org"
 }
 
-variable "routes" {
-  description = "Routes for CSpace ALB"
-  default = [
-    {
-      name = "anthro"
-      host = "anthro.collectionspace.org"
-      path = "/cspace/anthro/login"
-    },
-    {
-      name = "bonsai"
-      host = "bonsai.collectionspace.org"
-      path = "/cspace/bonsai/login"
-    },
-    {
-      name = "botgarden"
-      host = "botgarden.collectionspace.org"
-      path = "/cspace/botgarden/login"
-    },
-    {
-      name = "core"
-      host = "core.collectionspace.org"
-      path = "/cspace/core/login"
-    },
-    {
-      name = "fcart"
-      host = "fcart.collectionspace.org"
-      path = "/cspace/fcart/login"
-    },
-    {
-      name = "herbarium"
-      host = "herbarium.collectionspace.org"
-      path = "/cspace/herbarium/login"
-    },
-    {
-      name = "lhmc"
-      host = "lhmc.collectionspace.org"
-      path = "/cspace/lhmc/login"
-    },
-    {
-      name = "materials"
-      host = "materials.collectionspace.org"
-      path = "/cspace/materials/login"
-    },
-    {
-      name = "publicart"
-      host = "publicart.collectionspace.org"
-      path = "/cspace/publicart/login"
-    },
-  ]
-}
-
 variable "zone_alias" {
   default = "test"
 }
@@ -95,6 +44,7 @@ variable "service" {}
 variable "cluster_name" {}
 variable "efs_name" {}
 variable "lb_name" {}
+variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
 variable "security_group_name" {}
 variable "sns_topic_name" {}
 variable "subnet_type" {}

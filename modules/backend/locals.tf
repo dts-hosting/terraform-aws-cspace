@@ -17,23 +17,38 @@ locals {
   health_check_attempts     = var.health_check_attempts
   health_check_interval     = var.health_check_interval
   health_check_path         = var.health_check_path
-  host_headers              = [local.full_hostname]
-  host_with_alias           = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.zone}" : local.zone
-  img                       = var.img
-  img_tag                   = split(":", var.img)[1]
-  img_repository            = regex("/(.*):", var.img)[0]
-  instance_count            = var.instances
-  listener_arn              = var.listener_arn
-  name                      = var.name
-  placement_strategies      = var.placement_strategies
-  requires_compatibilities  = var.requires_compatibilities
-  resource_prefix           = local.name == local.zone_alias ? local.name : "${local.name}${local.zone_alias}"
-  routes                    = var.routes
-  security_group_id         = var.security_group_id
-  sns_topic_arn             = var.sns_topic_arn
-  subnets                   = var.subnets
-  tags                      = var.tags
-  task_memory_buffer_mb     = var.task_memory_buffer_mb
+  hostnames = length(local.profiles) == 1 ? [local.full_hostname] : [
+    for profile in local.profiles : "${profile}.${local.host_with_alias}"
+  ]
+  host_headers             = [local.full_hostname]
+  host_with_alias          = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.zone}" : local.zone
+  img                      = var.img
+  img_tag                  = split(":", var.img)[1]
+  img_repository           = regex("/(.*):", var.img)[0]
+  instance_count           = var.instances
+  listener_arn             = var.listener_arn
+  name                     = var.name
+  placement_strategies     = var.placement_strategies
+  profiles                 = var.profiles
+  requires_compatibilities = var.requires_compatibilities
+  resource_prefix          = local.name == local.zone_alias ? local.name : "${local.name}${local.zone_alias}"
+  route_prefix             = local.name == local.zone_alias ? local.name : "${local.name}.${local.zone_alias}"
+  routes = length(local.profiles) == 1 ? [{
+    name = local.route_prefix
+    host = local.full_hostname
+    path = "/cspace/${local.name}/login"
+    }] : [
+    for profile in local.profiles : {
+      name = "${profile}.${local.zone_alias}"
+      host = "${profile}.${local.host_with_alias}"
+      path = "/cspace/${profile}/login"
+    }
+  ]
+  security_group_id     = var.security_group_id
+  sns_topic_arn         = var.sns_topic_arn
+  subnets               = var.subnets
+  tags                  = var.tags
+  task_memory_buffer_mb = var.task_memory_buffer_mb
   task_memory_mb = max(
     var.task_memory_mb,
     local.collectionspace_memory_mb + local.elasticsearch_memory_mb + local.task_memory_buffer_mb

@@ -40,7 +40,8 @@ locals {
     Repository = "https://github.com/dts-hosting/terraform-aws-cspace"
   }
 
-  zone = var.domain
+  profiles = var.profiles
+  zone     = var.domain
 }
 
 ################################################################################
@@ -56,7 +57,7 @@ module "backend" {
   img               = var.backend_img
   listener_arn      = data.aws_lb_listener.selected.arn
   name              = local.name
-  routes            = var.routes
+  profiles          = local.profiles
   security_group_id = data.aws_security_group.selected.id
   sns_topic_arn     = data.aws_sns_topic.selected.arn
   subnets           = data.aws_subnets.selected.ids
@@ -71,27 +72,13 @@ module "backend" {
 # Supporting resources
 ################################################################################
 
-resource "aws_route53_record" "this" {
-  provider = aws.dns
-
-  zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "${var.zone_alias}.${var.domain}"
-  type    = "A"
-
-  alias {
-    name                   = data.aws_lb.selected.dns_name
-    zone_id                = data.aws_lb.selected.zone_id
-    evaluate_target_health = false
-  }
-}
-
 resource "aws_route53_record" "app_routes" {
-  for_each = { for route in var.routes : route.name => route }
+  for_each = toset(module.backend.hostnames)
 
   provider = aws.dns
 
   zone_id = data.aws_route53_zone.selected.zone_id
-  name    = "${each.key}.${local.zone}"
+  name    = each.key
   type    = "A"
 
   alias {
