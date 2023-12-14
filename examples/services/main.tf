@@ -73,7 +73,7 @@ module "backend" {
 ################################################################################
 
 resource "aws_route53_record" "app_routes" {
-  for_each = module.backend.hostnames
+  for_each = toset(module.backend.hostnames)
 
   provider = aws.dns
 

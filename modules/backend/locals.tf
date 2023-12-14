@@ -40,7 +40,7 @@ locals {
     }] : [
     for profile in local.profiles : {
       name = "${profile}.${local.zone_alias}"
-      host = "${profile}.${host_with_alias}"
+      host = "${profile}.${local.host_with_alias}"
       path = "/cspace/${profile}/login"
     }
   ]

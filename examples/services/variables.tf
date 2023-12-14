@@ -44,7 +44,7 @@ variable "service" {}
 variable "cluster_name" {}
 variable "efs_name" {}
 variable "lb_name" {}
-variable "profiles" {}
+variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
 variable "security_group_name" {}
 variable "sns_topic_name" {}
 variable "subnet_type" {}
