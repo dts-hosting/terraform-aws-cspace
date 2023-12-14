@@ -53,9 +53,13 @@ Used for multi-tenant cases, e.g., `dev` or `qa` so that sites are, e.g., `core.
 
 For all configuration options review the [variables file](modules/backend/variables.tf).
 
+### Outputs
+
+`hostnames`: A list of hostnames that should be used to generate DNS records.
+
 ### Understanding `profiles`
 
-This module generates load balancer routes and DNS names off of `profiles`.
+This module generates load balancer routes and hostnames off of `profiles`.
 There are two distinct code paths depending on how the `profiles` variable is
 set, so it's important to know the difference.
 
@@ -63,7 +67,8 @@ set, so it's important to know the difference.
 
 In this case, the list of `profiles` has a single value, e.g., `["anthro"]`.
 This will be the case for most clients. When there is only one value in
-`profiles`, the `name` and `zone_alias` are used for routing and DNS.
+`profiles`, the `name` and `zone_alias` are used for routing and as the
+generated hostname.
 
 Example:
 
@@ -76,7 +81,7 @@ module "backend" {
 }
 ```
 
-This generates a route using the DNS name
+This generates a route using the name
 `westerville.staging.collectionspace.org` with a path of
 `/cspace/westerville/login`.
 
@@ -86,7 +91,7 @@ In this case, there are multiple `profiles` in the list. This is typically only
 the case for CollectionSpace Program Team instances (e.g., dev, qa, demo) where
 multiple profiles are deployed for testing or demonstration purposes. When
 there are multiple `profiles` specified, the `profiles` and `zone_alias` are
-used for routing and DNS.
+used for both routing and hostnames.
 
 Example:
 
@@ -100,7 +105,7 @@ module "backend" {
 }
 ```
 
-This generates multiple routes using the following DNS names:
+This generates multiple routes using the following hostnames:
 
 * `anthro.dev.collectionspace.org` => `/cspace/anthro/login`
 * `bonsai.dev.collectionspace.org` => `/cspace/bonsai/login`
