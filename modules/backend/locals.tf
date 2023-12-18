@@ -31,8 +31,8 @@ locals {
   placement_strategies     = var.placement_strategies
   profiles                 = var.profiles
   requires_compatibilities = var.requires_compatibilities
-  resource_prefix          = local.name == local.zone_alias ? local.name : "${local.name}${local.zone_alias}"
-  route_prefix             = local.name == local.zone_alias ? local.name : "${local.name}.${local.zone_alias}"
+  resource_prefix          = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}${local.zone_alias}"
+  route_prefix             = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}.${local.zone_alias}"
   routes = length(local.profiles) == 1 ? [{
     name = local.route_prefix
     host = local.full_hostname
