@@ -28,12 +28,12 @@ module "backend" {
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
-  path_override           = null
   profiles                = ["anthro", "bonsai", "core", "fcart",
                             "herbarium", "lhmc", "materials", "publicart"]
   routes                  = var.routes
   security_group_id       = data.aws_security_group.selected.id
   sns_topic_arn           = var.sns_topic_arn
+  subdomain_override      = null
   subnets                 = var.subnets
   tags                    = {}
   timezone                = "America/New_York"
@@ -86,12 +86,12 @@ This generates a route using the name
 `westerville.staging.collectionspace.org` with a path of
 `/cspace/westerville/login`.
 
-##### `path_override`
+##### `subdomain_override`
 
-The `path_override` variable provides a way to let clients (primarily legacy)
-use a different name than their hostname. An example is Ohio History Connection,
-which uses `ohiohistory.collectionspace.org` but the tenant name `ohc`, so their
-expected login page would be located at
+The `subdomain_override` variable provides a way to let clients (primarily
+legacy) use a different hostname than their tenant name. An example is Ohio
+History Connection, which uses `ohiohistory.collectionspace.org` but the tenant
+name `ohc`, so their expected login page would be located at
 `https://ohiohistory.collectionspace.org/cspace/ohc/login`
 
 The other client in this situation is the National Videogame Museum with a

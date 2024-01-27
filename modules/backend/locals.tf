@@ -14,7 +14,7 @@ locals {
   env_cluster_name          = split("/", var.cluster_id)[1]
   es_efs_name               = "${local.resource_prefix}-es-data"
   extra_hosts               = var.extra_hosts
-  full_hostname             = "${local.name}.${local.host_with_alias}"
+  full_hostname             = "${coalesce(local.subdomain_override, local.name)}.${local.host_with_alias}"
   health_check_attempts     = var.health_check_attempts
   health_check_interval     = var.health_check_interval
   health_check_path         = var.health_check_path
@@ -29,7 +29,6 @@ locals {
   instance_count           = var.instances
   listener_arn             = var.listener_arn
   name                     = var.name
-  path_override            = var.path_override
   placement_strategies     = var.placement_strategies
   profiles                 = var.profiles
   requires_compatibilities = var.requires_compatibilities
@@ -38,7 +37,7 @@ locals {
   routes = length(local.profiles) == 1 ? [{
     name = local.route_prefix
     host = local.full_hostname
-    path = "/cspace/${coalesce(local.path_override, local.name)}/login"
+    path = "/cspace/${local.name}/login"
     }] : [
     for profile in local.profiles : {
       name = length(local.zone_alias) > 0 ? "${profile}.${local.zone_alias}" : profile
@@ -48,6 +47,7 @@ locals {
   ]
   security_group_id     = var.security_group_id
   sns_topic_arn         = var.sns_topic_arn
+  subdomain_override    = var.subdomain_override
   subnets               = var.subnets
   tags                  = var.tags
   task_memory_buffer_mb = var.task_memory_buffer_mb
