@@ -13,6 +13,7 @@ locals {
   elasticsearch_memory_mb   = var.elasticsearch_memory_mb
   env_cluster_name          = split("/", var.cluster_id)[1]
   es_efs_name               = "${local.resource_prefix}-es-data"
+  extra_hosts               = var.extra_hosts
   full_hostname             = "${local.name}.${local.host_with_alias}"
   health_check_attempts     = var.health_check_attempts
   health_check_interval     = var.health_check_interval
@@ -20,7 +21,7 @@ locals {
   hostnames = length(local.profiles) == 1 ? [local.full_hostname] : [
     for profile in local.profiles : "${profile}.${local.host_with_alias}"
   ]
-  host_headers             = [local.full_hostname]
+  host_headers             = concat([local.full_hostname], local.extra_hosts)
   host_with_alias          = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.zone}" : local.zone
   img                      = var.img
   img_tag                  = split(":", var.img)[1]
