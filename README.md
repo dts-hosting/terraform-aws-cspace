@@ -28,6 +28,7 @@ module "backend" {
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
+  path_override           = null
   profiles                = ["anthro", "bonsai", "core", "fcart",
                             "herbarium", "lhmc", "materials", "publicart"]
   routes                  = var.routes
@@ -84,6 +85,17 @@ module "backend" {
 This generates a route using the name
 `westerville.staging.collectionspace.org` with a path of
 `/cspace/westerville/login`.
+
+##### `path_override`
+
+The `path_override` variable provides a way to let clients (primarily legacy)
+use a different name than their hostname. An example is Ohio History Connection,
+which uses `ohiohistory.collectionspace.org` but the tenant name `ohc`, so their
+expected login page would be located at
+`https://ohiohistory.collectionspace.org/cspace/ohc/login`
+
+The other client in this situation is the National Videogame Museum with a
+hostname of `nationalvideogamemuseum` and a tenant name of `thenvm`.
 
 #### Multi-tenant (`name == zone_alias`)
 
