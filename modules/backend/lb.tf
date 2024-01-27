@@ -53,7 +53,7 @@ resource "aws_lb_listener_rule" "app_https_routes" {
 
   condition {
     host_header {
-      values = ["${each.value.name}.${local.zone}"]
+      values = concat(["${each.value.name}.${local.zone}"], local.extra_hosts)
     }
   }
 
@@ -77,7 +77,7 @@ resource "aws_lb_listener_rule" "app_https_routes_supported" {
 
   condition {
     host_header {
-      values = ["${each.value.name}.${local.zone}"]
+      values = concat(["${each.value.name}.${local.zone}"], local.extra_hosts)
     }
   }
 

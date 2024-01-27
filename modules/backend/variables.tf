@@ -41,6 +41,11 @@ variable "elasticsearch_memory_mb" {
   default = 1024
 }
 
+variable "extra_hosts" {
+  description = "Additional hosts for routing via host header condition"
+  default     = []
+}
+
 variable "health_check_attempts" {
   default = 10
 }
