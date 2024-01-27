@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "this" {
   filename         = data.archive_file.redeploy.output_path
-  function_name    = "${local.name}-redeployer"
+  function_name    = "${local.backend_name}-redeployer"
   role             = aws_iam_role.this.arn
   handler          = "index.handler"
   runtime          = "nodejs16.x"
@@ -17,7 +17,7 @@ resource "aws_lambda_function" "this" {
 }
 
 resource "aws_cloudwatch_event_rule" "this" {
-  name          = "${local.name}-redeployer"
+  name          = "${local.backend_name}-redeployer"
   event_pattern = <<PATTERN
 {
   "detail": {
