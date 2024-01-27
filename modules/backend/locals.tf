@@ -28,6 +28,7 @@ locals {
   instance_count           = var.instances
   listener_arn             = var.listener_arn
   name                     = var.name
+  path_override            = var.path_override
   placement_strategies     = var.placement_strategies
   profiles                 = var.profiles
   requires_compatibilities = var.requires_compatibilities
@@ -36,7 +37,7 @@ locals {
   routes = length(local.profiles) == 1 ? [{
     name = local.route_prefix
     host = local.full_hostname
-    path = "/cspace/${local.name}/login"
+    path = "/cspace/${coalesce(local.path_override, local.name)}/login"
     }] : [
     for profile in local.profiles : {
       name = length(local.zone_alias) > 0 ? "${profile}.${local.zone_alias}" : profile
