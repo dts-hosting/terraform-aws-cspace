@@ -78,11 +78,6 @@ variable "network_mode" {
   default = "awsvpc"
 }
 
-variable "path_override" {
-  description = "Specify the path name component for routing single tenant/profile deployments"
-  default     = null
-}
-
 variable "placement_strategies" {
   default = {
     pack-by-memory = {
@@ -112,6 +107,11 @@ variable "security_group_id" {
 
 variable "sns_topic_arn" {
   description = "SNS topic ARN"
+}
+
+variable "subdomain_override" {
+  description = "Specify the subdomain name component for routing single tenant/profile deployments"
+  default     = null
 }
 
 variable "subnets" {
