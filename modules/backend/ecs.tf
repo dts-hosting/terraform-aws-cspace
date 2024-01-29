@@ -89,6 +89,4 @@ resource "aws_efs_access_point" "es" {
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/aws/ecs/${local.backend_name}"
   retention_in_days = 7
-
-  tags = local.tags
 }
