@@ -25,6 +25,7 @@ module "backend" {
   cluster_id              = var.cluster_id
   container_port          = var.container_port
   efs_id                  = var.efs_id
+  extra_hosts             = []
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
@@ -85,6 +86,22 @@ module "backend" {
 This generates a route using the name
 `westerville.staging.collectionspace.org` with a path of
 `/cspace/westerville/login`.
+
+##### `extra_hosts`
+
+Optional: An array of additional hostnames to be added to the load balancer.
+
+The `extra_hosts` variable is used to provide additional `host_headers` that
+are supplied to the load balancers.
+
+Example: McGill wants their instance at `vacdatabase.library.mcgill.ca` instead
+of `mcgill.collectionspace.org`.
+
+> ⚠️ Each host consumes one of the five load balancer host conditions, so at
+> present, there can only be one `extra_host` per site or Terraform will throw an
+> error when applying the plan. To get the exta host, we combined `/cspace-*/*`
+> and `/cspace/<name>/*` to `/cspace*`. A side effect of this change is that the
+> core profile is exposed (but would still require credentials).
 
 ##### `subdomain_override`
 
