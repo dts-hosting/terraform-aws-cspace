@@ -28,6 +28,12 @@ variable "efs_id" {
   type        = string
 }
 
+variable "elasticsearch_img" {
+  description = "The Docker image to use for the ECS task"
+  type        = string
+  default     = "elasticsearch:5.6.12"
+}
+
 variable "elasticsearch_java_mem" {
   description = "Container-level memory allocation (ElasticSearch)"
   type        = number
