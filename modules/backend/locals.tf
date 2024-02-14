@@ -49,6 +49,7 @@ locals {
   sns_topic_arn         = var.sns_topic_arn
   subdomain_override    = var.subdomain_override
   subnets               = var.subnets
+  swap_size             = 1024
   tags                  = var.tags
   task_memory_buffer_mb = var.task_memory_buffer_mb
   task_memory_mb = max(
