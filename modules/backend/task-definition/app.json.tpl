@@ -65,6 +65,12 @@
         "readOnly": false
       }
     ],
+    %{ if capacity_provider == "EC2" }
+    "linuxParameters": {
+        "maxSwap": ${swap_size},
+        "swappiness": 60
+    },
+    %{ endif ~}
     "ulimits": [
       {
         "name": "nofile",
