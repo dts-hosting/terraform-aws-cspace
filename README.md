@@ -29,6 +29,7 @@ module "backend" {
   img                     = var.backend_img
   listener_arn            = var.listener_arn
   name                    = "cspace-demo"
+  pathname_override       = null
   profiles                = ["anthro", "bonsai", "core", "fcart",
                             "herbarium", "lhmc", "materials", "publicart"]
   routes                  = var.routes
@@ -102,6 +103,25 @@ of `mcgill.collectionspace.org`.
 > error when applying the plan. To get the exta host, we combined `/cspace-*/*`
 > and `/cspace/<name>/*` to `/cspace*`. A side effect of this change is that the
 > core profile is exposed (but would still require credentials).
+
+##### `pathname_override`
+
+Optional: A string to be used at the load balancer for path-based routing.
+
+By default, `domain.collectionspace.org` redirects to
+`domain.collectionspace.org/cspace/domain/login`. The `pathname_override` is
+used to specify the part that comes between `cspace/` and `/login`. This is
+primarily useful for cases where there is not a tenant specifically created,
+as in the case of educational instances.
+
+Example: CUNY (profile: lhmc)
+cuny.edu.collectionspace.org -redirect-> cuny.edu.collectionspace.org/cspace/cuny/login
+
+Since `cuny` isn't a valid profile/tenant, this page will not work. Specifying
+`pathname_override = "lhmc"` in the relevant `.tfvars` file will ensure that the
+load balancer's redirect is created as:
+
+cuny.edu.collectionspace.org -redirect-> cuny.edu.collectionspace.org/cspace/lhmc/login
 
 ##### `subdomain_override`
 
