@@ -78,6 +78,11 @@ variable "network_mode" {
   default = "awsvpc"
 }
 
+variable "pathname_override" {
+  default     = null
+  description = "Specify the pathname component for routing single tenant/profile deployments"
+}
+
 variable "placement_strategies" {
   default = {
     pack-by-memory = {
