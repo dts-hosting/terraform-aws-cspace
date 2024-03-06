@@ -31,6 +31,13 @@
         "value": "true"
       }
     ],
+    "mountPoints": [
+      {
+        "sourceVolume": "${temp_efs_name}",
+        "containerPath": "/apache-tomcat-8.5.51/temp",
+        "readOnly": false
+      }
+    ],
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

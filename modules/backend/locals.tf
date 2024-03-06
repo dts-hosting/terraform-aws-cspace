@@ -30,7 +30,7 @@ locals {
   listener_arn             = var.listener_arn
   name                     = var.name
   pathname_override        = var.pathname_override
-  placement_strategies     = var.placement_strategies
+  placement_strategies     = local.capacity_provider == "EC2" ? var.placement_strategies : {}
   profiles                 = var.profiles
   requires_compatibilities = var.requires_compatibilities
   resource_prefix          = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}${local.zone_alias}"
@@ -57,6 +57,7 @@ locals {
     var.task_memory_mb,
     local.collectionspace_memory_mb + local.elasticsearch_memory_mb + local.task_memory_buffer_mb
   )
+  temp_efs_name = "${local.resource_prefix}-temp"
   template_path = "${path.module}/task-definition/app.json.tpl"
   timezone      = var.timezone
   vpc_id        = var.vpc_id
