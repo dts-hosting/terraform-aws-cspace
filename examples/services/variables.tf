@@ -33,7 +33,7 @@ data "aws_route53_zone" "selected" {
 # External resources
 ################################################################################
 variable "dns_account_id" {}
-variable "dns_zone_name" {}
+variable "dns_zone_name" { default = "collectionspace.org" }
 variable "department" {}
 variable "environment" {}
 variable "project_account_id" {}
@@ -42,6 +42,7 @@ variable "role" {}
 variable "service" {}
 ### module
 variable "cluster_name" {}
+variable "cpu" {}
 variable "efs_name" {}
 variable "lb_name" {}
 variable "pathname_override" { default = null }
@@ -49,6 +50,7 @@ variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium
 variable "security_group_name" {}
 variable "sns_topic_name" {}
 variable "subnet_type" {}
+variable "task_memory_buffer_mb" {}
 variable "vpc_name" {}
 
 data "aws_ecs_cluster" "selected" {

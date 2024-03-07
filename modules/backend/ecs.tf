@@ -19,6 +19,7 @@ resource "aws_ecs_task_definition" "this" {
     log_group_name       = aws_cloudwatch_log_group.this.name
     region               = data.aws_region.current.name
     swap_size            = local.swap_size
+    temp_efs_name        = local.temp_efs_name
     timezone             = local.timezone
   })
 
@@ -31,6 +32,19 @@ resource "aws_ecs_task_definition" "this" {
 
       authorization_config {
         access_point_id = aws_efs_access_point.es.id
+      }
+    }
+  }
+
+  volume {
+    name = local.temp_efs_name
+
+    efs_volume_configuration {
+      file_system_id     = local.efs_id
+      transit_encryption = "ENABLED"
+
+      authorization_config {
+        access_point_id = aws_efs_access_point.temp.id
       }
     }
   }
@@ -81,8 +95,21 @@ resource "aws_efs_access_point" "es" {
   root_directory {
     path = "/${local.es_efs_name}"
     creation_info {
-      owner_gid   = 1001
-      owner_uid   = 1001
+      owner_gid   = 999
+      owner_uid   = 999
+      permissions = "755"
+    }
+  }
+}
+
+resource "aws_efs_access_point" "temp" {
+  file_system_id = local.efs_id
+
+  root_directory {
+    path = "/${local.temp_efs_name}"
+    creation_info {
+      owner_gid   = 999
+      owner_uid   = 999
       permissions = "755"
     }
   }

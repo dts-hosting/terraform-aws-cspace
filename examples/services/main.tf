@@ -51,21 +51,23 @@ locals {
 module "backend" {
   source = "../../modules/backend"
 
-  cluster_id        = data.aws_ecs_cluster.selected.id
-  container_port    = var.container_port
-  efs_id            = data.aws_efs_file_system.selected.id
-  img               = var.backend_img
-  listener_arn      = data.aws_lb_listener.selected.arn
-  name              = local.name
-  profiles          = local.profiles
-  security_group_id = data.aws_security_group.selected.id
-  sns_topic_arn     = data.aws_sns_topic.selected.arn
-  subnets           = data.aws_subnets.selected.ids
-  tags              = local.tags
-  timezone          = "America/New_York"
-  vpc_id            = data.aws_vpc.selected.id
-  zone              = var.domain
-  zone_alias        = var.zone_alias
+  cluster_id            = data.aws_ecs_cluster.selected.id
+  container_port        = var.container_port
+  cpu                   = var.cpu
+  efs_id                = data.aws_efs_file_system.selected.id
+  img                   = var.backend_img
+  listener_arn          = data.aws_lb_listener.selected.arn
+  name                  = local.name
+  profiles              = local.profiles
+  security_group_id     = data.aws_security_group.selected.id
+  sns_topic_arn         = data.aws_sns_topic.selected.arn
+  subnets               = data.aws_subnets.selected.ids
+  tags                  = local.tags
+  task_memory_buffer_mb = 1024
+  timezone              = "America/New_York"
+  vpc_id                = data.aws_vpc.selected.id
+  zone                  = var.domain
+  zone_alias            = var.zone_alias
 }
 
 ################################################################################
