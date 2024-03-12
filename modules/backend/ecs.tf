@@ -14,6 +14,7 @@ resource "aws_ecs_task_definition" "this" {
     cspace_memory        = local.collectionspace_memory_mb
     cspace_ui_build      = local.cspace_ui_build
     elasticsearch_memory = local.elasticsearch_memory_mb
+    elasticsearch_url    = local.elasticsearch_url
     img                  = local.img
     log_group_name       = aws_cloudwatch_log_group.this.name
     region               = data.aws_region.current.name

@@ -33,8 +33,21 @@ variable "cspace_ui_build" {
   default = false
 }
 
+variable "efs_id" {
+  description = "EFS id"
+}
+
+variable "elasticsearch_enabled" {
+  default = true
+}
+
 variable "elasticsearch_memory_mb" {
   default = 1024
+}
+
+variable "elasticsearch_url" {
+  description = "Elasticsearch URL"
+  default     = "http://localhost:9200"
 }
 
 variable "extra_hosts" {
