@@ -19,7 +19,6 @@ resource "aws_ecs_task_definition" "this" {
     log_group_name       = aws_cloudwatch_log_group.this.name
     region               = data.aws_region.current.name
     swap_size            = local.swap_size
-    temp_efs_name        = local.temp_efs_name
     timezone             = local.timezone
   })
 }
