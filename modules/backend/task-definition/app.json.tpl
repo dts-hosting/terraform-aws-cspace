@@ -58,13 +58,6 @@
         "value": "-Xms${elasticsearch_memory}m -Xmx${elasticsearch_memory}m"
       }
     ],
-    "mountPoints": [
-      {
-        "sourceVolume": "${es_efs_name}",
-        "containerPath": "/usr/share/elasticsearch/data",
-        "readOnly": false
-      }
-    ],
     %{ if capacity_provider == "EC2" }
     "linuxParameters": {
         "maxSwap": ${swap_size},

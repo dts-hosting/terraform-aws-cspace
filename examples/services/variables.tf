@@ -42,7 +42,6 @@ variable "role" {}
 variable "service" {}
 ### module
 variable "cluster_name" {}
-variable "efs_name" {}
 variable "lb_name" {}
 variable "pathname_override" { default = null }
 variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
@@ -53,12 +52,6 @@ variable "vpc_name" {}
 
 data "aws_ecs_cluster" "selected" {
   cluster_name = var.cluster_name
-}
-
-data "aws_efs_file_system" "selected" {
-  tags = {
-    Name = var.efs_name
-  }
 }
 
 data "aws_lb" "selected" {

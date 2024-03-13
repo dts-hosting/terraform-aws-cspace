@@ -2,7 +2,6 @@ backend_img             = "collectionspace/collectionspace:latest"
 cluster_name            = "cspace-cluster"
 container_port          = 8180
 domain                  = "collectionspace.org"
-efs_name                = "cspace-efs"
 extra_hosts             = []
 lb_name                 = "cspace-lb"
 profiles                = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"]

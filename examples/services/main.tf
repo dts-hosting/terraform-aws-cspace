@@ -53,7 +53,6 @@ module "backend" {
 
   cluster_id        = data.aws_ecs_cluster.selected.id
   container_port    = var.container_port
-  efs_id            = data.aws_efs_file_system.selected.id
   img               = var.backend_img
   listener_arn      = data.aws_lb_listener.selected.arn
   name              = local.name

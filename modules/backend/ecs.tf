@@ -13,7 +13,6 @@ resource "aws_ecs_task_definition" "this" {
     create_db            = local.create_db
     cspace_memory        = local.collectionspace_memory_mb
     cspace_ui_build      = local.cspace_ui_build
-    es_efs_name          = local.es_efs_name
     elasticsearch_memory = local.elasticsearch_memory_mb
     img                  = local.img
     log_group_name       = aws_cloudwatch_log_group.this.name
@@ -21,19 +20,6 @@ resource "aws_ecs_task_definition" "this" {
     swap_size            = local.swap_size
     timezone             = local.timezone
   })
-
-  volume {
-    name = local.es_efs_name
-
-    efs_volume_configuration {
-      file_system_id     = local.efs_id
-      transit_encryption = "ENABLED"
-
-      authorization_config {
-        access_point_id = aws_efs_access_point.es.id
-      }
-    }
-  }
 }
 
 resource "aws_ecs_service" "this" {
@@ -73,19 +59,6 @@ resource "aws_ecs_service" "this" {
   }
 
   tags = local.tags
-}
-
-resource "aws_efs_access_point" "es" {
-  file_system_id = local.efs_id
-
-  root_directory {
-    path = "/${local.es_efs_name}"
-    creation_info {
-      owner_gid   = 1001
-      owner_uid   = 1001
-      permissions = "755"
-    }
-  }
 }
 
 resource "aws_cloudwatch_log_group" "this" {

@@ -9,10 +9,8 @@ locals {
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
-  efs_id                    = var.efs_id
   elasticsearch_memory_mb   = var.elasticsearch_memory_mb
   env_cluster_name          = split("/", var.cluster_id)[1]
-  es_efs_name               = "${local.resource_prefix}-es-data"
   extra_hosts               = var.extra_hosts
   full_hostname             = "${coalesce(local.subdomain_override, local.name)}.${local.host_with_alias}"
   health_check_attempts     = var.health_check_attempts

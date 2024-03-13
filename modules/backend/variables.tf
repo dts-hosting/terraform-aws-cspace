@@ -33,10 +33,6 @@ variable "cspace_ui_build" {
   default = false
 }
 
-variable "efs_id" {
-  description = "EFS id"
-}
-
 variable "elasticsearch_memory_mb" {
   default = 1024
 }
