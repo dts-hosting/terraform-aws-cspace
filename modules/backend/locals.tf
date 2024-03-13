@@ -9,7 +9,6 @@ locals {
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
-  efs_id                    = var.efs_id
   elasticsearch_enabled     = var.elasticsearch_enabled
   elasticsearch_memory_mb   = local.elasticsearch_enabled ? var.elasticsearch_memory_mb : 0
   elasticsearch_url         = var.elasticsearch_url
