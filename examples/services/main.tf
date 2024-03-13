@@ -69,6 +69,22 @@ module "backend" {
   zone_alias            = var.zone_alias
 }
 
+module "elasticsearch" {
+  source = "../../modules/elasticsearch"
+
+  cluster_id        = data.aws_ecs_cluster.selected.id
+  efs_id            = data.aws_efs_file_system.selected.id
+  img               = var.elasticsearch_img
+  instances         = 1
+  memory            = 1024
+  name              = "${local.name}-es"
+  network_mode      = "awsvpc"
+  security_group_id = data.aws_security_group.selected.id
+  subnets           = data.aws_subnets.selected.ids
+  tags              = local.tags
+  vpc_id            = data.aws_vpc.selected.id
+}
+
 ################################################################################
 # Supporting resources
 ################################################################################

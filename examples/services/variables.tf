@@ -51,6 +51,8 @@ variable "sns_topic_name" {}
 variable "subnet_type" {}
 variable "task_memory_buffer_mb" {}
 variable "vpc_name" {}
+### ES
+variable "elasticsearch_img" {}
 
 data "aws_ecs_cluster" "selected" {
   cluster_name = var.cluster_name
