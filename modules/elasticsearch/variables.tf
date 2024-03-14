@@ -40,6 +40,12 @@ variable "elasticsearch_java_mem" {
   default     = 768
 }
 
+variable "enabled" {
+  description = "Set to false to prevent the module from creating any resources"
+  type        = bool
+  default     = true
+}
+
 variable "img" {
   description = "The Docker image to use for the ECS task"
   type        = string
@@ -93,6 +99,17 @@ variable "requires_compatibilities" {
 
 variable "security_group_id" {
   description = "The security group ID to use for the ECS task"
+  type        = string
+}
+
+variable "service_discovery_id" {
+  description = "The service discovery ID to use for the ECS task"
+  type        = string
+}
+
+variable "service_discovery_dns_type" {
+  default     = "A"
+  description = "The service discovery DNS type to use for the ECS task"
   type        = string
 }
 

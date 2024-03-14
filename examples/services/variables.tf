@@ -52,10 +52,18 @@ variable "subnet_type" {}
 variable "task_memory_buffer_mb" {}
 variable "vpc_name" {}
 ### ES
+variable "elasticsearch_discovery_namespace" { default = "cspace.elasticsearch" }
 variable "elasticsearch_img" {}
+variable "efs_name" {}
 
 data "aws_ecs_cluster" "selected" {
   cluster_name = var.cluster_name
+}
+
+data "aws_efs_file_system" "selected" {
+  tags = {
+    Name = var.efs_name
+  }
 }
 
 data "aws_lb" "selected" {

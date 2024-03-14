@@ -9,8 +9,6 @@ locals {
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
-  elasticsearch_enabled     = var.elasticsearch_enabled
-  elasticsearch_memory_mb   = local.elasticsearch_enabled ? var.elasticsearch_memory_mb : 0
   elasticsearch_url         = var.elasticsearch_url
   env_cluster_name          = split("/", var.cluster_id)[1]
   extra_hosts               = var.extra_hosts
@@ -55,9 +53,9 @@ locals {
   task_memory_buffer_mb = var.task_memory_buffer_mb
   task_memory_mb = max(
     var.task_memory_mb,
-    local.collectionspace_memory_mb + local.elasticsearch_memory_mb + local.task_memory_buffer_mb
+    local.collectionspace_memory_mb + local.task_memory_buffer_mb
   )
-  template_path = join("", ["${path.module}/task-definition/", local.elasticsearch_enabled ? "app-plus-es.json.tpl" : "app-without-es.json.tpl"])
+  template_path = join("", ["${path.module}/task-definition/", length(local.elasticsearch_url) > 0 ? "app-plus-es.json.tpl" : "app-without-es.json.tpl"])
   timezone      = var.timezone
   vpc_id        = var.vpc_id
   zone          = var.zone

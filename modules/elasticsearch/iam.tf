@@ -1,4 +1,6 @@
 resource "aws_iam_role" "this" {
+  count = local.enabled ? 1 : 0
+
   name = local.name
   path = "/"
 
@@ -12,7 +14,7 @@ resource "aws_iam_role" "this" {
         "Service": [
           "ec2.amazonaws.com",
           "ecs.amazonaws.com",
-          "ecs-tasks.amazonaws.com",
+          "ecs-tasks.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole",
@@ -26,6 +28,6 @@ EOF
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   ]
 }

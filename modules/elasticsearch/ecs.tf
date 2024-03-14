@@ -1,11 +1,13 @@
 resource "aws_ecs_task_definition" "this" {
+  count = local.enabled ? 1 : 0
+
   family                   = local.name
   network_mode             = local.network_mode
   requires_compatibilities = local.requires_compatibilities
   cpu                      = local.cpu
   memory                   = local.memory
-  execution_role_arn       = aws_iam_role.this.arn
-  task_role_arn            = aws_iam_role.this.arn
+  execution_role_arn       = local.enabled ? aws_iam_role.this[0].arn : null
+  task_role_arn            = local.enabled ? aws_iam_role.this[0].arn : null
   container_definitions    = templatefile(local.template_path, local.task_config)
 
   volume {
@@ -16,16 +18,17 @@ resource "aws_ecs_task_definition" "this" {
       transit_encryption = "ENABLED"
 
       authorization_config {
-        access_point_id = aws_efs_access_point.data.id
+        access_point_id = local.enabled ? aws_efs_access_point.data[0].id : null
       }
     }
   }
 }
 
 resource "aws_ecs_service" "elasticsearch" {
+  count           = local.enabled ? 1 : 0
   name            = local.name
   cluster         = local.cluster_id
-  task_definition = aws_ecs_task_definition.this.arn
+  task_definition = local.enabled ? aws_ecs_task_definition.this[0].arn : null
   desired_count   = local.instances
 
   deployment_maximum_percent         = 100
@@ -57,12 +60,42 @@ resource "aws_ecs_service" "elasticsearch" {
     }
   }
 
-  depends_on = [aws_ecs_task_definition.this]
+  service_registries {
+    container_name = local.network_mode == "awsvpc" ? null : "elasticsearch"
+    container_port = local.network_mode == "awsvpc" ? null : local.port
+    registry_arn   = local.enabled ? aws_service_discovery_service.this[0].arn : null
+  }
+
+  depends_on = [aws_ecs_task_definition.this[0]]
 
   tags = local.tags
 }
 
+resource "aws_service_discovery_service" "this" {
+  count = local.enabled ? 1 : 0
+
+  name = local.name
+  dns_config {
+    namespace_id = local.service_discovery_id
+    dns_records {
+      ttl  = 10
+      type = local.service_discovery_dns_type
+    }
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+
+  lifecycle {
+    ignore_changes = [health_check_custom_config]
+  }
+}
+
 resource "aws_efs_access_point" "data" {
+  count = local.enabled ? 1 : 0
+
   file_system_id = local.efs_id
 
   root_directory {
@@ -76,6 +109,8 @@ resource "aws_efs_access_point" "data" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
+  count = local.enabled ? 1 : 0
+
   name              = "/aws/ecs/${local.name}"
   retention_in_days = 7
 }

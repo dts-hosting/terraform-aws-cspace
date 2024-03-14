@@ -54,6 +54,7 @@ module "backend" {
   cluster_id            = data.aws_ecs_cluster.selected.id
   container_port        = var.container_port
   cpu                   = var.cpu
+  elasticsearch_url     = "http://${local.name}-es.cspace.elasticsearch:9200"
   img                   = var.backend_img
   listener_arn          = data.aws_lb_listener.selected.arn
   name                  = local.name
@@ -72,17 +73,18 @@ module "backend" {
 module "elasticsearch" {
   source = "../../modules/elasticsearch"
 
-  cluster_id        = data.aws_ecs_cluster.selected.id
-  efs_id            = data.aws_efs_file_system.selected.id
-  img               = var.elasticsearch_img
-  instances         = 1
-  memory            = 1024
-  name              = "${local.name}-es"
-  network_mode      = "awsvpc"
-  security_group_id = data.aws_security_group.selected.id
-  subnets           = data.aws_subnets.selected.ids
-  tags              = local.tags
-  vpc_id            = data.aws_vpc.selected.id
+  cluster_id           = data.aws_ecs_cluster.selected.id
+  efs_id               = data.aws_efs_file_system.selected.id
+  img                  = var.elasticsearch_img
+  instances            = 1
+  memory               = 1024
+  name                 = "${local.name}-es"
+  network_mode         = "awsvpc"
+  security_group_id    = data.aws_security_group.selected.id
+  service_discovery_id = aws_service_discovery_private_dns_namespace.es.id
+  subnets              = data.aws_subnets.selected.ids
+  tags                 = local.tags
+  vpc_id               = data.aws_vpc.selected.id
 }
 
 ################################################################################
@@ -103,4 +105,10 @@ resource "aws_route53_record" "app_routes" {
     zone_id                = data.aws_lb.selected.zone_id
     evaluate_target_health = true
   }
+}
+
+resource "aws_service_discovery_private_dns_namespace" "es" {
+  name        = var.elasticsearch_discovery_namespace
+  description = "Private DNS namespace for Elasticsearch service discovery"
+  vpc         = data.aws_vpc.selected.id
 }
