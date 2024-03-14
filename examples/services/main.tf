@@ -81,7 +81,7 @@ module "elasticsearch" {
   name                 = "${local.name}-es"
   network_mode         = "awsvpc"
   security_group_id    = data.aws_security_group.selected.id
-  service_discovery_id = data.aws_security_discovery_dns_namespace.selected.id
+  service_discovery_id = data.aws_service_discovery_dns_namespace.selected.id
   subnets              = data.aws_subnets.selected.ids
   tags                 = local.tags
   vpc_id               = data.aws_vpc.selected.id
