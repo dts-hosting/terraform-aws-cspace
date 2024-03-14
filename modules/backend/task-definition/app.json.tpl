@@ -24,65 +24,11 @@
       },
       {
         "name": "ES_HOST",
-        "value": "http://localhost:9200"
+        "value": "${elasticsearch_url}"
       },
       {
         "name": "S3_BINARY_MANAGER_ENABLED",
         "value": "true"
-      }
-    ],
-    "mountPoints": [
-      {
-        "sourceVolume": "${temp_efs_name}",
-        "containerPath": "/apache-tomcat-8.5.51/temp",
-        "readOnly": false
-      }
-    ],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${log_group_name}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "collectionspace"
-      }
-    }
-  },
-  {
-    "name": "elasticsearch",
-    "image": "elasticsearch:5.6.16",
-    "networkMode": "awsvpc",
-    "portMappings": [
-      {
-        "containerPort": 9200
-      },
-      {
-        "containerPort": 9300
-      }
-    ],
-    "environment": [
-      {
-        "name": "ES_JAVA_OPTS",
-        "value": "-Xms${elasticsearch_memory}m -Xmx${elasticsearch_memory}m"
-      }
-    ],
-    "mountPoints": [
-      {
-        "sourceVolume": "${es_efs_name}",
-        "containerPath": "/usr/share/elasticsearch/data",
-        "readOnly": false
-      }
-    ],
-    %{ if capacity_provider == "EC2" }
-    "linuxParameters": {
-        "maxSwap": ${swap_size},
-        "swappiness": 60
-    },
-    %{ endif ~}
-    "ulimits": [
-      {
-        "name": "nofile",
-        "softLimit": 65536,
-        "hardLimit": 65536
       }
     ],
     "logConfiguration": {

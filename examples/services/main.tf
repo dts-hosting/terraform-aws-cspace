@@ -54,7 +54,7 @@ module "backend" {
   cluster_id            = data.aws_ecs_cluster.selected.id
   container_port        = var.container_port
   cpu                   = var.cpu
-  efs_id                = data.aws_efs_file_system.selected.id
+  elasticsearch_url     = "http://${local.name}-es.cspace.elasticsearch:9200"
   img                   = var.backend_img
   listener_arn          = data.aws_lb_listener.selected.arn
   name                  = local.name
@@ -68,6 +68,23 @@ module "backend" {
   vpc_id                = data.aws_vpc.selected.id
   zone                  = var.domain
   zone_alias            = var.zone_alias
+}
+
+module "elasticsearch" {
+  source = "../../modules/elasticsearch"
+
+  cluster_id           = data.aws_ecs_cluster.selected.id
+  efs_id               = data.aws_efs_file_system.selected.id
+  img                  = var.elasticsearch_img
+  instances            = 1
+  memory               = 1024
+  name                 = "${local.name}-es"
+  network_mode         = "awsvpc"
+  security_group_id    = data.aws_security_group.selected.id
+  service_discovery_id = data.aws_service_discovery_dns_namespace.selected.id
+  subnets              = data.aws_subnets.selected.ids
+  tags                 = local.tags
+  vpc_id               = data.aws_vpc.selected.id
 }
 
 ################################################################################

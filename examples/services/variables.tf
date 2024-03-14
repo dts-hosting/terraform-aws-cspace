@@ -43,7 +43,6 @@ variable "service" {}
 ### module
 variable "cluster_name" {}
 variable "cpu" {}
-variable "efs_name" {}
 variable "lb_name" {}
 variable "pathname_override" { default = null }
 variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
@@ -52,6 +51,10 @@ variable "sns_topic_name" {}
 variable "subnet_type" {}
 variable "task_memory_buffer_mb" {}
 variable "vpc_name" {}
+### ES
+variable "elasticsearch_discovery_namespace" { default = "cspace.elasticsearch" }
+variable "elasticsearch_img" {}
+variable "efs_name" {}
 
 data "aws_ecs_cluster" "selected" {
   cluster_name = var.cluster_name
@@ -77,6 +80,11 @@ data "aws_security_group" "selected" {
     name   = "tag:Name"
     values = [var.security_group_name]
   }
+}
+
+data "aws_service_discovery_dns_namespace" "selected" {
+  name = var.elasticsearch_discovery_namespace
+  type = "DNS_PRIVATE"
 }
 
 data "aws_sns_topic" "selected" {

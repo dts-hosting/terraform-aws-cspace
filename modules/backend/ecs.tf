@@ -7,47 +7,19 @@ resource "aws_ecs_task_definition" "this" {
   execution_role_arn       = aws_iam_role.this.arn
   task_role_arn            = aws_iam_role.this.arn
   container_definitions = templatefile(local.template_path, {
-    capacity_provider    = local.capacity_provider
-    container_port       = local.container_port
-    cpu                  = local.cpu
-    create_db            = local.create_db
-    cspace_memory        = local.collectionspace_memory_mb
-    cspace_ui_build      = local.cspace_ui_build
-    es_efs_name          = local.es_efs_name
-    elasticsearch_memory = local.elasticsearch_memory_mb
-    img                  = local.img
-    log_group_name       = aws_cloudwatch_log_group.this.name
-    region               = data.aws_region.current.name
-    swap_size            = local.swap_size
-    temp_efs_name        = local.temp_efs_name
-    timezone             = local.timezone
+    capacity_provider = local.capacity_provider
+    container_port    = local.container_port
+    cpu               = local.cpu
+    create_db         = local.create_db
+    cspace_memory     = local.collectionspace_memory_mb
+    cspace_ui_build   = local.cspace_ui_build
+    elasticsearch_url = local.elasticsearch_url
+    img               = local.img
+    log_group_name    = aws_cloudwatch_log_group.this.name
+    region            = data.aws_region.current.name
+    swap_size         = local.swap_size
+    timezone          = local.timezone
   })
-
-  volume {
-    name = local.es_efs_name
-
-    efs_volume_configuration {
-      file_system_id     = local.efs_id
-      transit_encryption = "ENABLED"
-
-      authorization_config {
-        access_point_id = aws_efs_access_point.es.id
-      }
-    }
-  }
-
-  volume {
-    name = local.temp_efs_name
-
-    efs_volume_configuration {
-      file_system_id     = local.efs_id
-      transit_encryption = "ENABLED"
-
-      authorization_config {
-        access_point_id = aws_efs_access_point.temp.id
-      }
-    }
-  }
 }
 
 resource "aws_ecs_service" "this" {
@@ -87,32 +59,6 @@ resource "aws_ecs_service" "this" {
   }
 
   tags = local.tags
-}
-
-resource "aws_efs_access_point" "es" {
-  file_system_id = local.efs_id
-
-  root_directory {
-    path = "/${local.es_efs_name}"
-    creation_info {
-      owner_gid   = 999
-      owner_uid   = 999
-      permissions = "755"
-    }
-  }
-}
-
-resource "aws_efs_access_point" "temp" {
-  file_system_id = local.efs_id
-
-  root_directory {
-    path = "/${local.temp_efs_name}"
-    creation_info {
-      owner_gid   = 999
-      owner_uid   = 999
-      permissions = "755"
-    }
-  }
 }
 
 resource "aws_cloudwatch_log_group" "this" {
