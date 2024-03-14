@@ -6,7 +6,6 @@ locals {
   data_volume_name           = local.name
   efs_id                     = var.efs_id
   elasticsearch_java_mem     = var.elasticsearch_java_mem
-  enabled                    = var.enabled
   img                        = var.elasticsearch_img
   instances                  = var.instances
   memory                     = var.memory
@@ -27,7 +26,7 @@ locals {
     container_port   = local.port
     data_volume_name = local.data_volume_name
     img              = local.img
-    log_group_name   = local.enabled ? aws_cloudwatch_log_group.this[0].name : ""
+    log_group_name   = aws_cloudwatch_log_group.this.name
     memory           = local.elasticsearch_java_mem
     network_mode     = local.network_mode
     name             = local.name

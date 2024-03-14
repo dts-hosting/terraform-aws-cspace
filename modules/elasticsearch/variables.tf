@@ -40,12 +40,6 @@ variable "elasticsearch_java_mem" {
   default     = 768
 }
 
-variable "enabled" {
-  description = "Set to false to prevent the module from creating any resources"
-  type        = bool
-  default     = true
-}
-
 variable "img" {
   description = "The Docker image to use for the ECS task"
   type        = string

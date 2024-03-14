@@ -1,6 +1,4 @@
 resource "aws_iam_role" "this" {
-  count = local.enabled ? 1 : 0
-
   name = local.name
   path = "/"
 
