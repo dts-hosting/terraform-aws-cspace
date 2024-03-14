@@ -82,6 +82,11 @@ data "aws_security_group" "selected" {
   }
 }
 
+data "aws_service_discovery_dns_namespace" "selected" {
+  name = var.elasticsearch_discovery_namespace
+  type = "DNS_PRIVATE"
+}
+
 data "aws_sns_topic" "selected" {
   name = var.sns_topic_name
 }

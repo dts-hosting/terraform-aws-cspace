@@ -81,7 +81,7 @@ module "elasticsearch" {
   name                 = "${local.name}-es"
   network_mode         = "awsvpc"
   security_group_id    = data.aws_security_group.selected.id
-  service_discovery_id = aws_service_discovery_private_dns_namespace.es.id
+  service_discovery_id = data.aws_security_discovery_dns_namespace.selected.id
   subnets              = data.aws_subnets.selected.ids
   tags                 = local.tags
   vpc_id               = data.aws_vpc.selected.id
@@ -105,10 +105,4 @@ resource "aws_route53_record" "app_routes" {
     zone_id                = data.aws_lb.selected.zone_id
     evaluate_target_health = true
   }
-}
-
-resource "aws_service_discovery_private_dns_namespace" "es" {
-  name        = var.elasticsearch_discovery_namespace
-  description = "Private DNS namespace for Elasticsearch service discovery"
-  vpc         = data.aws_vpc.selected.id
 }
