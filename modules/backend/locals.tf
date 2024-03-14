@@ -55,7 +55,7 @@ locals {
     var.task_memory_mb,
     local.collectionspace_memory_mb + local.task_memory_buffer_mb
   )
-  template_path = join("", ["${path.module}/task-definition/", length(local.elasticsearch_url) > 0 ? "app-plus-es.json.tpl" : "app-without-es.json.tpl"])
+  template_path = "${path.module}/task-definition/app.json.tpl"
   timezone      = var.timezone
   vpc_id        = var.vpc_id
   zone          = var.zone
