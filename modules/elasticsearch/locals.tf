@@ -28,7 +28,6 @@ locals {
     elasticsearch_java_mem = local.elasticsearch_java_mem
     img                    = local.img
     log_group_name         = aws_cloudwatch_log_group.this.name
-    memory                 = local.memory
     network_mode           = local.network_mode
     name                   = local.name
     region                 = data.aws_region.current.name
