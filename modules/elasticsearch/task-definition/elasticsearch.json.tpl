@@ -14,7 +14,7 @@
     "environment": [
       {
         "name": "ES_JAVA_OPTS",
-        "value": "-Xms${memory}m -Xmx${memory}m"
+        "value": "-Xms${elasticsearch_java_mem}m -Xmx${elasticsearch_java_mem}m"
       }
     ],
     "mountPoints": [

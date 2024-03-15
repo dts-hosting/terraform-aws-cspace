@@ -23,13 +23,14 @@ locals {
   vpc_id                     = var.vpc_id
 
   task_config = {
-    container_port   = local.port
-    data_volume_name = local.data_volume_name
-    img              = local.img
-    log_group_name   = aws_cloudwatch_log_group.this.name
-    memory           = local.elasticsearch_java_mem
-    network_mode     = local.network_mode
-    name             = local.name
-    region           = data.aws_region.current.name
+    container_port         = local.port
+    data_volume_name       = local.data_volume_name
+    elasticsearch_java_mem = local.elasticsearch_java_mem
+    img                    = local.img
+    log_group_name         = aws_cloudwatch_log_group.this.name
+    memory                 = local.memory
+    network_mode           = local.network_mode
+    name                   = local.name
+    region                 = data.aws_region.current.name
   }
 }
