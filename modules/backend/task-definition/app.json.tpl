@@ -38,6 +38,16 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "collectionspace"
       }
-    }
+    },
+    "mountPoints": [
+      {
+        "sourceVolume": "${name}-apachetmp",
+        "containerPath": "/apache-tomcat-8.5.51/temp"
+      },
+      {
+        "sourceVolume": "${name}-nuxeoserver",
+        "containerPath": "/apache-tomcat-8.5.51/nuxeo-server"
+      }
+    ]
   }
 ]
