@@ -16,10 +16,32 @@ resource "aws_ecs_task_definition" "this" {
     elasticsearch_url = local.elasticsearch_url
     img               = local.img
     log_group_name    = aws_cloudwatch_log_group.this.name
+    name              = local.backend_name
     region            = data.aws_region.current.name
     swap_size         = local.swap_size
     timezone          = local.timezone
   })
+
+  volume {
+    name = "${local.backend_name}-apachetmp"
+    # it's ok for this temp to persist between containers on the same host
+    docker_volume_configuration {
+      scope         = "shared"
+      autoprovision = true
+      driver        = "local"
+    }
+  }
+
+  volume {
+    name = "${local.backend_name}-nuxeoserver"
+    docker_volume_configuration {
+      # always start with the images nuxeo-server directory
+      # as re/builds may have changed the content (temp files are ejected)
+      scope         = "task"
+      autoprovision = false
+      driver        = "local"
+    }
+  }
 }
 
 resource "aws_ecs_service" "this" {
