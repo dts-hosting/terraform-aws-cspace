@@ -2,7 +2,7 @@ locals {
   assign_public_ip           = var.assign_public_ip
   capacity_provider          = var.capacity_provider
   cluster_id                 = var.cluster_id
-  cpu                        = var.capacity_provider == "EC2" ? null : var.cpu
+  cpu                        = var.cpu
   data_volume_name           = local.name
   efs_id                     = var.efs_id
   elasticsearch_java_mem     = var.elasticsearch_java_mem
