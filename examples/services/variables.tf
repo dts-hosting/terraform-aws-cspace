@@ -18,6 +18,10 @@ variable "domain" {
   default = "collectionspace.org"
 }
 
+variable "elasticsearch_img" {
+  default = "elasticsearch:5.6.12"
+}
+
 variable "zone_alias" {
   default = "test"
 }
@@ -42,18 +46,15 @@ variable "role" {}
 variable "service" {}
 ### module
 variable "cluster_name" {}
-variable "cpu" {}
 variable "lb_name" {}
 variable "pathname_override" { default = null }
 variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
 variable "security_group_name" {}
 variable "sns_topic_name" {}
 variable "subnet_type" {}
-variable "task_memory_buffer_mb" {}
 variable "vpc_name" {}
 ### ES
 variable "elasticsearch_discovery_namespace" { default = "cspace.elasticsearch" }
-variable "elasticsearch_img" {}
 variable "efs_name" {}
 
 data "aws_ecs_cluster" "selected" {
