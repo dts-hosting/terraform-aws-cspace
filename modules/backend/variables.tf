@@ -48,7 +48,7 @@ variable "health_check_attempts" {
 }
 
 variable "health_check_interval" {
-  default = 60
+  default = 120
 }
 
 variable "health_check_path" {
