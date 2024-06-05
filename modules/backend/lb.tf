@@ -20,50 +20,6 @@ resource "aws_lb_target_group" "this" {
   }
 }
 
-resource "aws_lb_listener_rule" "app" {
-  listener_arn = local.listener_arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.this.arn
-  }
-
-  condition {
-    host_header {
-      values = local.host_headers
-    }
-  }
-}
-
-// route: redirect base path to tenant for host
-resource "aws_lb_listener_rule" "app_https_routes" {
-  for_each = { for route in local.routes : route.name => route }
-
-  listener_arn = local.listener_arn
-
-  action {
-    type = "redirect"
-    redirect {
-      path        = each.value.path
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-
-  condition {
-    host_header {
-      values = concat(["${each.value.name}.${local.zone}"], local.extra_hosts)
-    }
-  }
-
-  condition {
-    path_pattern {
-      values = ["/"]
-    }
-  }
-}
-
 // route: allow supported routes for host
 resource "aws_lb_listener_rule" "app_https_routes_supported" {
   for_each = { for route in local.routes : route.name => route }
