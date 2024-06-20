@@ -40,9 +40,9 @@ resource "aws_lb_listener_rule" "app_https_routes_supported" {
   condition {
     path_pattern {
       values = [
+        "/",
         "/cspace*",
-        "/gateway*",
-        "/static/*"
+        "/*at*" # /static/* and /gateway/*
       ]
     }
   }

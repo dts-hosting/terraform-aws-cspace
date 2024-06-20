@@ -29,7 +29,7 @@ locals {
   profiles                  = var.profiles
   requires_compatibilities  = var.requires_compatibilities
   resource_prefix           = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}${local.zone_alias}"
-  route_prefix              = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}.${local.zone_alias}"
+  route_prefix              = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? coalesce(local.subdomain_override, local.name) : "${coalesce(local.subdomain_override, local.name)}.${local.zone_alias}"
   security_group_id         = var.security_group_id
   sns_topic_arn             = var.sns_topic_arn
   subdomain_override        = var.subdomain_override
