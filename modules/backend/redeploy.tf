@@ -1,7 +1,7 @@
 resource "aws_lambda_function" "this" {
   filename         = data.archive_file.redeploy.output_path
   function_name    = "${local.backend_name}-redeployer"
-  role             = aws_iam_role.this.arn
+  role             = local.iam_ecs_task_role_arn
   handler          = "index.handler"
   runtime          = "nodejs16.x"
   timeout          = 300

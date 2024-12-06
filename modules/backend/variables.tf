@@ -55,6 +55,10 @@ variable "health_check_path" {
   default = "/cspace-services/systeminfo"
 }
 
+variable "iam_ecs_task_role_arn" {
+  description = "ARN for ECS task role"
+}
+
 variable "img" {
   description = "CSpace backend docker img"
 }

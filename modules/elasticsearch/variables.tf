@@ -40,6 +40,10 @@ variable "elasticsearch_java_mem" {
   default     = 768
 }
 
+variable "iam_ecs_task_role_arn" {
+  description = "The ARN of the IAM role to use for task execution"
+}
+
 variable "img" {
   description = "The Docker image to use for the ECS task"
   type        = string

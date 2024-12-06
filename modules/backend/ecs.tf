@@ -4,8 +4,8 @@ resource "aws_ecs_task_definition" "this" {
   requires_compatibilities = local.requires_compatibilities
   cpu                      = local.cpu
   memory                   = local.task_memory_mb
-  execution_role_arn       = aws_iam_role.this.arn
-  task_role_arn            = aws_iam_role.this.arn
+  execution_role_arn       = local.iam_ecs_task_role_arn
+  task_role_arn            = local.iam_ecs_task_role_arn
   container_definitions = templatefile(local.template_path, {
     capacity_provider = local.capacity_provider
     container_port    = local.container_port

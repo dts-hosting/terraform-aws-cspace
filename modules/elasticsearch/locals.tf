@@ -6,6 +6,7 @@ locals {
   data_volume_name           = local.name
   efs_id                     = var.efs_id
   elasticsearch_java_mem     = var.elasticsearch_java_mem
+  iam_ecs_task_role_arn      = var.iam_ecs_task_role_arn
   img                        = var.elasticsearch_img
   instances                  = var.instances
   memory                     = var.memory
