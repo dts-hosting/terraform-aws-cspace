@@ -46,6 +46,7 @@ variable "role" {}
 variable "service" {}
 ### module
 variable "cluster_name" {}
+variable "iam_ecs_task_role_name" {}
 variable "lb_name" {}
 variable "pathname_override" { default = null }
 variable "profiles" { default = ["anthro", "bonsai", "core", "fcart", "herbarium", "lhmc", "materials", "publicart"] }
@@ -104,4 +105,8 @@ data "aws_vpc" "selected" {
     name   = "tag:Name"
     values = [var.vpc_name]
   }
+}
+
+data "aws_iam_role" "ecs_task_role" {
+  name = var.iam_ecs_task_role_name
 }

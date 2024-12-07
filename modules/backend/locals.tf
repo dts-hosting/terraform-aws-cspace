@@ -18,6 +18,7 @@ locals {
   health_check_path         = var.health_check_path
   host_headers              = concat([local.full_hostname], local.extra_hosts)
   host_with_alias           = length(local.zone_alias) > 0 ? "${local.zone_alias}.${local.zone}" : local.zone
+  iam_ecs_task_role_arn     = var.iam_ecs_task_role_arn
   img                       = var.img
   img_tag                   = split(":", var.img)[1]
   img_repository            = regex("/(.*):", var.img)[0]
