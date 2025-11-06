@@ -1,4 +1,5 @@
 data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
 
 variable "assign_public_ip" {
   default = false
@@ -113,6 +114,10 @@ variable "security_group_id" {
 
 variable "sns_topic_arn" {
   description = "SNS topic ARN"
+}
+
+variable "stack" {
+  description = "Stack name"
 }
 
 variable "subdomain_override" {
