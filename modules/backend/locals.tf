@@ -3,6 +3,11 @@ locals {
   backend_name              = local.resource_prefix
   capacity_provider         = var.capacity_provider
   cluster_id                = var.cluster_id
+  codebuild_compute_type    = "BUILD_GENERAL1_MEDIUM"
+  codebuild_image           = "aws/codebuild/standard:5.0"
+  codebuild_input_bucket    = var.codebuild_input_bucket
+  codebuild_role_name       = var.codebuild_role_name
+  codebuild_type            = "LINUX_CONTAINER"
   collectionspace_memory_mb = var.collectionspace_memory_mb
   container_port            = var.container_port
   cpu                       = var.cpu
