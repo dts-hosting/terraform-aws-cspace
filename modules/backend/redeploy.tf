@@ -5,7 +5,7 @@ resource "aws_lambda_function" "this" {
   handler          = "index.handler"
   runtime          = "nodejs16.x"
   timeout          = 300
-  source_code_hash = filebase64sha256(data.archive_file.redeploy.output_path)
+  source_code_hash = data.archive_file.redeploy.output_base64sha256
   publish          = true
 
   environment {
