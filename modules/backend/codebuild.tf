@@ -17,7 +17,7 @@ resource "aws_codebuild_project" "codebuild" {
 
   source {
     type     = "S3"
-    location = "${local.codebuild_input_bucket}/${local.backend_name}-build.zip"
+    location = "${local.codebuild_input_bucket}/builds/${local.backend_name}-build.zip"
   }
 
   tags = local.tags

@@ -24,7 +24,6 @@ variable "codebuild_input_bucket" {
 
 variable "codebuild_role_name" {
   description = "IAM role name for CodeBuild"
-  default     = "cs-iam-role"
 }
 
 variable "collectionspace_memory_mb" {
