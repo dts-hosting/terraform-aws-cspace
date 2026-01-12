@@ -14,6 +14,8 @@ resource "aws_lambda_function" "this" {
       SERVICE = local.backend_name
     }
   }
+
+  depends_on = [data.archive_file.redeploy]
 }
 
 resource "aws_cloudwatch_event_rule" "this" {
