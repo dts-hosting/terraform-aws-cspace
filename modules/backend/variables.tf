@@ -1,4 +1,7 @@
 data "aws_region" "current" {}
+data "aws_s3_bucket" "codebuild_bucket" {
+  bucket = local.codebuild_input_bucket
+}
 
 variable "assign_public_ip" {
   default = false
@@ -10,6 +13,10 @@ variable "capacity_provider" {
 
 variable "cluster_id" {
   description = "ECS cluster id"
+}
+
+variable "codebuild_input_bucket" {
+  description = "S3 bucket for CodeBuild input source"
 }
 
 variable "collectionspace_memory_mb" {

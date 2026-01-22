@@ -197,3 +197,18 @@ to run.
 The value passed to the module for `task_memory_mb` will be the greater of:
 
 `task_memory_mb` and `collectionspace_memory_mb + elasticsearch_memory_mb + task_memory_buffer_mb`
+
+## CodeBuild
+
+Due to the unreliability of builds initiated by GitHub actions (connection
+resets downloading packages from Maven), for now, parallel build infrastructure
+is being maintained with CodeBuild. The current process works in conjunction
+with the `docker-cspace` repository, which is responsible for uploading the
+zip file to the S3 bucket `cspace-dcsp-production-storage` using a `builds/`
+prefix. The S3 bucket is configurable through the `codebuild_input_bucket`
+variable.
+
+For example, if a build of `cunyedu` is triggered in the `docker-cspace`
+repository, the zip file will be uploaded to
+`s3://cspace-dcsp-production-storage/builds/cunyedu-build.zip`, where it will
+be picked up by the CodeBuild project and built into a deployable image.

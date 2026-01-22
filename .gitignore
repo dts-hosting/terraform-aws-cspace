@@ -5,3 +5,4 @@ terraform.tf*
 terraform.tfvars
 !terraform.tfvars.example
 redeploy.zip
+.vscode
