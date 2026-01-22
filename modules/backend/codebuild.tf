@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "codebuild" {
   name          = "${local.backend_name}-codebuild"
   description   = "${local.backend_name}-codebuild"
   build_timeout = "60"
-  service_role  = data.aws_iam_role.codebuild_role.arn
+  service_role  = local.iam_ecs_task_role_arn
 
   environment {
     compute_type    = local.codebuild_compute_type

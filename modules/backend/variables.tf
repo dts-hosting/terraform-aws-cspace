@@ -1,6 +1,3 @@
-data "aws_iam_role" "codebuild_role" {
-  name = local.codebuild_role_name
-}
 data "aws_region" "current" {}
 data "aws_s3_bucket" "codebuild_bucket" {
   bucket = local.codebuild_input_bucket
@@ -20,10 +17,6 @@ variable "cluster_id" {
 
 variable "codebuild_input_bucket" {
   description = "S3 bucket for CodeBuild input source"
-}
-
-variable "codebuild_role_name" {
-  description = "IAM role name for CodeBuild"
 }
 
 variable "collectionspace_memory_mb" {
