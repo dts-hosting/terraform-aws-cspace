@@ -45,6 +45,12 @@ variable "elasticsearch_url" {
   default     = "http://localhost:9200"
 }
 
+variable "enable_periodic_build" {
+  type        = bool
+  default     = false
+  description = "When true, create a CloudWatch schedule that triggers the CodeBuild project on the given cron (e.g. for dev)."
+}
+
 variable "extra_hosts" {
   description = "Additional hosts for routing via host header condition"
   default     = []
@@ -84,6 +90,12 @@ variable "name" {
 
 variable "network_mode" {
   default = "awsvpc"
+}
+
+variable "periodic_build_schedule" {
+  type        = string
+  default     = "cron(0 6 * * ? *)"
+  description = "Cron expression for the periodic build (default daily at 06:00 UTC). Used only when enable_periodic_build is true."
 }
 
 variable "pathname_override" {
