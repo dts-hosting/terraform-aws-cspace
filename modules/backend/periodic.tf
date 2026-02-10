@@ -4,10 +4,10 @@
 # codebuild:StartBuild permission.
 
 resource "aws_cloudwatch_event_rule" "periodic_build" {
-  count                = var.enable_periodic_build ? 1 : 0
-  name                 = "${local.backend_name}-codebuild-periodic-rule"
-  description          = "Triggers ${local.backend_name} CodeBuild project on schedule"
-  schedule_expression  = var.periodic_build_schedule
+  count               = var.enable_periodic_build ? 1 : 0
+  name                = "${local.backend_name}-codebuild-periodic-rule"
+  description         = "Triggers ${local.backend_name} CodeBuild project on schedule"
+  schedule_expression = var.periodic_build_schedule
 }
 
 resource "aws_cloudwatch_event_target" "periodic_build" {
