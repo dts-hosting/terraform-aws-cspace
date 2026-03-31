@@ -53,7 +53,6 @@ module "backend" {
 
   cluster_id            = data.aws_ecs_cluster.selected.id
   container_port        = var.container_port
-  elasticsearch_url     = "http://${local.name}-es.cspace.elasticsearch:9200"
   iam_ecs_task_role_arn = data.aws_iam_role.ecs_task_role.arn
   img                   = var.backend_img
   listener_arn          = data.aws_lb_listener.selected.arn

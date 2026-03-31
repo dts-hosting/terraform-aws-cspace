@@ -13,7 +13,6 @@ locals {
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
-  elasticsearch_url         = var.elasticsearch_url
   env_cluster_name          = split("/", var.cluster_id)[1]
   extra_hosts               = var.extra_hosts
   full_hostname             = "${coalesce(local.subdomain_override, local.name)}.${local.host_with_alias}"
