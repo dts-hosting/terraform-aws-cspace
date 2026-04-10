@@ -23,10 +23,6 @@
         "value": "${cspace_ui_build}"
       },
       {
-        "name": "ES_HOST",
-        "value": "${elasticsearch_url}"
-      },
-      {
         "name": "S3_BINARY_MANAGER_ENABLED",
         "value": "true"
       }

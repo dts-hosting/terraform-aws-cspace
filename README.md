@@ -24,7 +24,6 @@ module "backend" {
 
   cluster_id              = var.cluster_id
   container_port          = var.container_port
-  elasticsearch_url       = "http://localhost:9200"
   extra_hosts             = []
   img                     = var.backend_img
   listener_arn            = var.listener_arn

@@ -40,11 +40,6 @@ variable "cspace_ui_build" {
   default = false
 }
 
-variable "elasticsearch_url" {
-  description = "Elasticsearch URL"
-  default     = "http://localhost:9200"
-}
-
 variable "enable_periodic_build" {
   type        = bool
   default     = false
