@@ -11,10 +11,6 @@
     ],
     "environment": [
       {
-        "name": "CATALINA_OPTS",
-        "value": "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Duser.timezone=${timezone} -Xmx${cspace_memory}m -Xms${cspace_memory}m -XX:MaxPermSize=384m"
-      },
-      {
         "name": "CREATE_DB",
         "value": "${create_db}"
       },
