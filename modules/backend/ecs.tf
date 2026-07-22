@@ -6,6 +6,16 @@ resource "aws_ecs_task_definition" "this" {
   memory                   = local.task_memory_mb
   execution_role_arn       = local.iam_ecs_task_role_arn
   task_role_arn            = local.iam_ecs_task_role_arn
+
+  dynamic "runtime_platform" {
+    for_each = local.cpu_architecture == null ? [] : [1]
+
+    content {
+      operating_system_family = "LINUX"
+      cpu_architecture        = local.cpu_architecture
+    }
+  }
+
   container_definitions = templatefile(local.template_path, {
     capacity_provider = local.capacity_provider
     container_port    = local.container_port
@@ -51,7 +61,7 @@ resource "aws_ecs_service" "this" {
   }
 
   dynamic "ordered_placement_strategy" {
-    for_each = local.placement_strategies
+    for_each = !strcontains(local.capacity_provider, "FARGATE") ? local.placement_strategies : {}
     content {
       field = ordered_placement_strategy.value.field
       type  = ordered_placement_strategy.value.type
