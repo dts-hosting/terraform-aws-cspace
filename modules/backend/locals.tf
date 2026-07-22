@@ -10,6 +10,7 @@ locals {
   collectionspace_memory_mb = var.collectionspace_memory_mb
   container_port            = var.container_port
   cpu                       = var.cpu
+  cpu_architecture          = var.cpu_architecture
   create_db                 = var.create_db
   cspace_memory             = var.collectionspace_memory_mb
   cspace_ui_build           = var.cspace_ui_build
@@ -29,7 +30,7 @@ locals {
   listener_arn              = var.listener_arn
   name                      = var.name
   pathname_override         = var.pathname_override
-  placement_strategies      = local.capacity_provider == "EC2" ? var.placement_strategies : {}
+  placement_strategies      = var.placement_strategies
   profiles                  = var.profiles
   requires_compatibilities  = var.requires_compatibilities
   resource_prefix           = (length(local.zone_alias) == 0 || local.name == local.zone_alias) ? local.name : "${local.name}${local.zone_alias}"
