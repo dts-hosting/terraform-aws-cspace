@@ -18,6 +18,7 @@ resource "aws_ecs_task_definition" "this" {
 
   container_definitions = templatefile(local.template_path, {
     capacity_provider = local.capacity_provider
+    catalina_opts     = jsonencode(local.catalina_opts)
     container_port    = local.container_port
     cpu               = local.cpu
     create_db         = local.create_db

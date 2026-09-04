@@ -157,14 +157,19 @@ variable "target_type" {
   default = "ip"
 }
 
+variable "catalina_opts" {
+  default     = ""
+  description = "CATALINA_OPTS for the CollectionSpace JVM (heap, timezone). Set at runtime so image rebuilds are not required. When empty, built from timezone and collectionspace_memory_mb."
+}
+
 variable "task_memory_buffer_mb" {
-  description = "Available task memory in excess of CSpace + ES"
-  default     = 512
+  description = "Available task memory in excess of collectionspace_memory_mb"
+  default     = 128
 }
 
 variable "task_memory_mb" {
-  description = "Memory allocation for task (hard limit)"
-  default     = 3072
+  description = "Memory allocation for task (hard limit). Defaults to collectionspace_memory_mb."
+  default     = null
 }
 
 variable "timezone" {
