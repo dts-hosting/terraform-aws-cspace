@@ -6,7 +6,17 @@ resource "aws_ecs_task_definition" "this" {
   memory                   = local.memory
   execution_role_arn       = local.iam_ecs_task_role_arn
   task_role_arn            = local.iam_ecs_task_role_arn
-  container_definitions    = templatefile(local.template_path, local.task_config)
+
+  dynamic "runtime_platform" {
+    for_each = local.cpu_architecture == null ? [] : [1]
+
+    content {
+      operating_system_family = "LINUX"
+      cpu_architecture        = local.cpu_architecture
+    }
+  }
+
+  container_definitions = templatefile(local.template_path, local.task_config)
 
   volume {
     name = local.data_volume_name

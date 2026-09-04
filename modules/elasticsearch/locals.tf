@@ -3,6 +3,7 @@ locals {
   capacity_provider          = var.capacity_provider
   cluster_id                 = var.cluster_id
   cpu                        = var.cpu
+  cpu_architecture           = var.cpu_architecture
   data_volume_name           = local.name
   efs_id                     = var.efs_id
   elasticsearch_java_mem     = var.elasticsearch_java_mem
