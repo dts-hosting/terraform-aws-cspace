@@ -23,6 +23,16 @@ variable "cpu" {
   default     = 512
 }
 
+variable "cpu_architecture" {
+  default     = null
+  description = "ECS task CPU architecture. Valid values are X86_64 and ARM64. Leave null (default) to omit runtime_platform: ECS/EC2 selects the matching image from a multiarch repo per instance type, and Fargate defaults to X86_64. Set explicitly (typically ARM64) for Fargate on Graviton."
+
+  validation {
+    condition     = var.cpu_architecture == null || contains(["X86_64", "ARM64"], var.cpu_architecture)
+    error_message = "cpu_architecture must be either X86_64 or ARM64."
+  }
+}
+
 variable "efs_id" {
   description = "The EFS ID to use for the ECS task"
   type        = string
@@ -73,7 +83,7 @@ variable "network_mode" {
 }
 
 variable "placement_strategies" {
-  description = "The placement strategies to use for the ECS service"
+  description = "Placement strategies (does not apply when capacity provider is FARGATE)"
   type        = map(map(string))
   default = {
     "pack-by-memory" = {
