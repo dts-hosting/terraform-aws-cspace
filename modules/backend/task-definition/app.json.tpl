@@ -21,6 +21,10 @@
       {
         "name": "S3_BINARY_MANAGER_ENABLED",
         "value": "true"
+      },
+      {
+        "name": "CATALINA_OPTS",
+        "value": ${catalina_opts}
       }
     ],
     "logConfiguration": {

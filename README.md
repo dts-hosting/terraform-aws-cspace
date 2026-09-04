@@ -180,22 +180,17 @@ target_type              = "instance"
 
 ## Memory configuration
 
-Each ECS task definition has tasks with separate memory allocations so that the
-memory available to each task may be set independently.
+`collectionspace_memory_mb` is the JVM heap (`-Xmx`) and the ECS task hard
+limit. `CATALINA_OPTS` is set on the task at runtime from this value and
+`timezone`, so heap changes do not require a new image.
 
-`collectionspace_memory_mb`: The MB of memory to allocate for the
-CollectionSpace task. (Default: `2048`)  
-`elasticsearch_memory_mb`: The MB of memory to allocate for the ElasticSearch
-task. (Default: `1024`)  
-`task_memory_buffer_mb`: The MB of memory that should be available in excess of
-the specific allocation for tasks.
-`collectionspace_memory_mb + elasticsearch_memory_mb`. (Default: `512`)  
-`task_memory_mb`: The total MB (hard limit) within which the containers need
-to run.  
+`task_memory_mb` defaults to `collectionspace_memory_mb`.
+`task_memory_buffer_mb` defaults to `128`. The task hard limit is
+`coalesce(task_memory_mb, collectionspace_memory_mb) + task_memory_buffer_mb`.
 
-The value passed to the module for `task_memory_mb` will be the greater of:
+`catalina_opts` may be passed explicitly. When empty, the module builds:
 
-`task_memory_mb` and `collectionspace_memory_mb + elasticsearch_memory_mb + task_memory_buffer_mb`
+`-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Duser.timezone=<timezone> -Xmx<collectionspace_memory_mb>m -Xms<collectionspace_memory_mb/2>m`
 
 ## CodeBuild
 

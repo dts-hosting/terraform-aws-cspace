@@ -7,6 +7,7 @@ locals {
   codebuild_image           = "aws/codebuild/standard:5.0"
   codebuild_input_bucket    = var.codebuild_input_bucket
   codebuild_type            = "LINUX_CONTAINER"
+  catalina_opts             = var.catalina_opts != "" ? var.catalina_opts : "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Duser.timezone=${var.timezone} -Xmx${var.collectionspace_memory_mb}m -Xms${var.collectionspace_memory_mb / 2}m"
   collectionspace_memory_mb = var.collectionspace_memory_mb
   container_port            = var.container_port
   cpu                       = var.cpu
@@ -66,9 +67,6 @@ locals {
     }
   ]
 
-  # determine memory (task definition hard limit)
-  task_memory_mb = max(
-    var.task_memory_mb,
-    local.collectionspace_memory_mb + local.task_memory_buffer_mb
-  )
+  # Task hard limit is the JVM size plus optional buffer.
+  task_memory_mb = coalesce(var.task_memory_mb, local.collectionspace_memory_mb) + local.task_memory_buffer_mb
 }
